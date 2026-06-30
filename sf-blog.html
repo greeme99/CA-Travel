@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>San Francisco Blog — 샌프란시스코 여행 | MK Travel</title>
+<meta name="description" content="금문교, 피셔맨스 워프, 차이나타운 — 샌프란시스코 완전 여행 가이드">
+<style>
+  :root {
+    --primary: #1a1a2e;
+    --sf: #1B3F7A;
+    --sf-light: #2980b9;
+    --sf-pale: #e3f0fb;
+    --accent: #c8a951;
+    --text: #2c2c2c;
+    --light-bg: #f4f8fd;
+    --border: #ccdff0;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Georgia', serif; background: #fff; color: var(--text); }
+
+  .nav-wrapper {
+    background: #fff;
+    border-bottom: 1px solid #e8e8e8;
+    position: sticky;
+    top: 0;
+    z-index: 200;
+  }
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 32px;
+    height: 56px;
+  }
+  .nav-left {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .nav-search {
+    font-size: 1rem;
+    color: #555;
+    cursor: pointer;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+  }
+  .nav-links {
+    display: flex;
+    list-style: none;
+    gap: 0;
+  }
+  .nav-links li a {
+    display: block;
+    padding: 0 16px;
+    font-family: 'Lato', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    color: #333;
+    text-decoration: none;
+    letter-spacing: 0.3px;
+    line-height: 56px;
+    transition: color 0.2s;
+  }
+  .nav-links li a:hover,
+  .nav-links li a.active { color: #b07a8a; }
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .nav-right a {
+    display: flex;
+    align-items: center;
+    color: #555;
+    font-size: 14px;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-right a:hover { color: #b07a8a; }
+
+  .hero {
+    background: linear-gradient(135deg, #0a1628 0%, var(--sf) 60%, #2980b9 100%);
+    color: #fff; padding: 90px 40px 70px;
+    text-align: center; position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute; inset: 0;
+    background: url('https://static.wixstatic.com/media/98e43a_13cd6e7e560e444fa20d6df172ccf071~mv2.jpg') center/cover;
+    opacity: 0.15;
+  }
+  .hero-content { position: relative; z-index: 1; }
+  .hero-icon { font-size: 4rem; margin-bottom: 16px; filter: drop-shadow(0 2px 12px rgba(0,0,0,0.4)); }
+  .hero-tag { display: inline-block; border: 1px solid rgba(200,169,81,0.6); color: var(--accent); font-family: 'Segoe UI', sans-serif; font-size: 0.7rem; letter-spacing: 4px; text-transform: uppercase; padding: 5px 16px; margin-bottom: 20px; }
+  .hero h1 { font-size: 2.8rem; font-weight: 400; line-height: 1.2; margin-bottom: 14px; }
+  .hero h1 em { font-style: italic; color: var(--accent); }
+  .hero p { font-family: 'Segoe UI', sans-serif; font-size: 1rem; opacity: 0.75; max-width: 500px; margin: 0 auto; }
+
+
+  /* QUICK FACTS */
+  .quick-facts {
+    background: var(--sf); color: #fff;
+    display: grid; grid-template-columns: repeat(4, 1fr); text-align: center;
+  }
+  .qf-item { padding: 28px 16px; border-right: 1px solid rgba(255,255,255,0.15); }
+  .qf-item:last-child { border-right: none; }
+  .qf-icon { font-size: 1.8rem; margin-bottom: 6px; }
+  .qf-label { font-family: 'Segoe UI', sans-serif; font-size: 0.8rem; font-weight: 700; color: var(--accent); margin-bottom: 4px; }
+  .qf-val { font-family: 'Segoe UI', sans-serif; font-size: 0.8rem; opacity: 0.85; }
+
+  /* INTRO */
+  .intro { max-width: 760px; margin: 0 auto; padding: 60px 40px 40px; text-align: center; }
+  .intro .eyebrow { font-family: 'Segoe UI', sans-serif; font-size: 0.72rem; letter-spacing: 4px; text-transform: uppercase; color: var(--sf); margin-bottom: 12px; }
+  .intro h2 { font-size: 1.8rem; font-weight: 400; color: var(--primary); margin-bottom: 16px; }
+  .intro p { font-family: 'Segoe UI', sans-serif; font-size: 0.97rem; color: #666; line-height: 1.8; }
+
+  /* NEIGHBORHOOD CARDS */
+  .neighborhoods { padding: 20px 40px 80px; max-width: 960px; margin: 0 auto; }
+  .nbhd-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .nbhd-card {
+    border-radius: 16px; overflow: hidden; border: 1px solid var(--border);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .nbhd-card:hover { transform: translateY(-4px); box-shadow: 0 12px 28px rgba(0,0,0,0.1); }
+  .nbhd-header {
+    padding: 28px 20px 20px; color: #fff;
+    display: flex; flex-direction: column; align-items: center; text-align: center;
+    min-height: 140px; justify-content: center;
+  }
+  .nbhd-icon { font-size: 2.4rem; margin-bottom: 10px; }
+  .nbhd-header h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 4px; }
+  .nbhd-header p { font-size: 0.75rem; opacity: 0.8; }
+  .nbhd-photo { height: 180px; overflow: hidden; }
+  .nbhd-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; transition: transform 0.4s ease; }
+  .nbhd-card:hover .nbhd-photo img { transform: scale(1.06); }
+  .nbhd-body { padding: 16px 20px; background: #fff; }
+  .nbhd-body .desc { font-family: 'Segoe UI', sans-serif; font-size: 0.83rem; color: #666; line-height: 1.7; margin-bottom: 12px; }
+  .must-see { font-family: 'Segoe UI', sans-serif; font-size: 0.75rem; }
+  .must-see strong { color: var(--sf); font-weight: 700; }
+  .must-see span { color: #888; }
+
+  /* ATTRACTION SECTION */
+  .attractions { background: var(--light-bg); padding: 72px 40px; }
+  .section-header { text-align: center; margin-bottom: 48px; }
+  .eyebrow { font-family: 'Segoe UI', sans-serif; font-size: 0.7rem; letter-spacing: 4px; text-transform: uppercase; color: var(--sf); margin-bottom: 10px; }
+  .section-header h2 { font-size: 1.8rem; font-weight: 400; color: var(--primary); }
+  .attr-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; max-width: 900px; margin: 0 auto; }
+  .attr-card {
+    background: #fff; border-radius: 12px; padding: 24px;
+    display: flex; gap: 18px; border: 1px solid var(--border);
+    transition: box-shadow 0.2s;
+  }
+  .attr-card:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.08); }
+  .attr-icon { font-size: 2.2rem; flex-shrink: 0; }
+  .attr-card h4 { font-family: 'Segoe UI', sans-serif; font-size: 0.95rem; font-weight: 700; color: var(--primary); margin-bottom: 6px; }
+  .attr-card p { font-family: 'Segoe UI', sans-serif; font-size: 0.82rem; color: #777; line-height: 1.7; }
+  .attr-meta { margin-top: 8px; display: flex; gap: 12px; }
+  .meta-tag { background: var(--sf-pale); color: var(--sf); font-family: 'Segoe UI', sans-serif; font-size: 0.7rem; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
+
+  /* FOOD SECTION */
+  .food-section { padding: 72px 40px; max-width: 960px; margin: 0 auto; }
+  .food-section .section-header { margin-bottom: 40px; }
+  .food-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .food-card {
+    border: 1px solid var(--border); border-radius: 12px; overflow: hidden;
+  }
+  .food-header {
+    background: var(--sf); color: #fff; padding: 20px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .food-header .icon { font-size: 1.8rem; }
+  .food-header h4 { font-size: 0.95rem; font-weight: 700; }
+  .food-header p { font-size: 0.75rem; opacity: 0.8; margin-top: 2px; }
+  .food-body { padding: 16px 20px; background: #fff; }
+  .food-body p { font-family: 'Segoe UI', sans-serif; font-size: 0.82rem; color: #666; line-height: 1.7; }
+  .food-recs { margin-top: 12px; }
+  .food-recs strong { font-family: 'Segoe UI', sans-serif; font-size: 0.75rem; color: var(--sf); text-transform: uppercase; letter-spacing: 1px; }
+  .food-recs p { font-size: 0.8rem; color: #888; }
+
+  /* TRANSPORT */
+  .transport { background: var(--primary); color: #fff; padding: 60px 40px; }
+  .transport .section-header h2 { color: #fff; }
+  .transport .eyebrow { color: var(--accent); }
+  .transport-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; max-width: 900px; margin: 0 auto; }
+  .transport-card {
+    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 12px; padding: 20px; text-align: center;
+  }
+  .transport-card .t-icon { font-size: 2rem; margin-bottom: 10px; }
+  .transport-card h4 { font-family: 'Segoe UI', sans-serif; font-size: 0.88rem; font-weight: 700; margin-bottom: 6px; color: var(--accent); }
+  .transport-card p { font-family: 'Segoe UI', sans-serif; font-size: 0.78rem; opacity: 0.75; line-height: 1.6; }
+
+  /* DAY TRIPS */
+  .daytrips { padding: 72px 40px; max-width: 960px; margin: 0 auto; }
+  .daytrips .section-header { margin-bottom: 40px; }
+  .trip-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .trip-item {
+    display: flex; align-items: center; gap: 16px;
+    border: 1px solid var(--border); border-radius: 12px; padding: 20px;
+    text-decoration: none; color: inherit; transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .trip-item:hover { border-color: var(--sf); box-shadow: 0 4px 16px rgba(27,63,122,0.1); }
+  .trip-distance {
+    flex-shrink: 0; width: 64px; height: 64px;
+    background: var(--sf-pale); border-radius: 50%;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    font-family: 'Segoe UI', sans-serif;
+  }
+  .trip-distance .dist { font-size: 1rem; font-weight: 900; color: var(--sf); }
+  .trip-distance .unit { font-size: 0.65rem; color: #999; }
+  .trip-info h4 { font-family: 'Segoe UI', sans-serif; font-size: 0.9rem; font-weight: 700; color: var(--primary); margin-bottom: 4px; }
+  .trip-info p { font-family: 'Segoe UI', sans-serif; font-size: 0.8rem; color: #777; }
+
+  /* PRACTICAL */
+  .practical { background: var(--light-bg); padding: 60px 40px; }
+  .practical .section-header { text-align: center; margin-bottom: 36px; }
+  .practical-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; max-width: 860px; margin: 0 auto; }
+  .prac-card { background: #fff; border-radius: 12px; padding: 22px; border: 1px solid var(--border); }
+  .prac-card h4 { font-family: 'Segoe UI', sans-serif; font-size: 0.88rem; font-weight: 700; color: var(--sf); margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+  .prac-card p { font-family: 'Segoe UI', sans-serif; font-size: 0.82rem; color: #666; line-height: 1.7; }
+
+  /* CTA */
+  .cta-bar { background: var(--sf); color: #fff; text-align: center; padding: 56px 40px; }
+  .cta-bar h2 { font-size: 1.8rem; font-weight: 400; margin-bottom: 10px; }
+  .cta-bar p { font-family: 'Segoe UI', sans-serif; font-size: 0.9rem; opacity: 0.8; margin-bottom: 28px; }
+  .cta-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+  .btn-primary { background: var(--accent); color: var(--primary); padding: 14px 32px; text-decoration: none; font-family: 'Segoe UI', sans-serif; font-size: 0.82rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; border-radius: 4px; }
+  .btn-outline { border: 1px solid rgba(255,255,255,0.5); color: #fff; padding: 14px 32px; text-decoration: none; font-family: 'Segoe UI', sans-serif; font-size: 0.82rem; letter-spacing: 1.5px; text-transform: uppercase; border-radius: 4px; }
+
+  footer { background: var(--primary); color: rgba(255,255,255,0.5); text-align: center; padding: 32px; font-family: 'Segoe UI', sans-serif; font-size: 0.82rem; }
+  footer strong { color: var(--accent); }
+  footer .other-blogs { display: flex; justify-content: center; gap: 24px; margin-top: 16px; }
+  footer .other-blogs a { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.85rem; }
+  footer .other-blogs a:hover { color: var(--accent); }
+
+  @media (max-width: 680px) {
+    .nbhd-grid, .food-grid, .practical-grid { grid-template-columns: 1fr; }
+    .attr-grid, .trip-list { grid-template-columns: 1fr; }
+    .transport-grid { grid-template-columns: repeat(2, 1fr); }
+    .quick-facts { grid-template-columns: repeat(2, 1fr); }
+    .hero h1 { font-size: 2rem; }
+    .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="nav-wrapper">
+  <nav>
+    <div class="nav-left">
+      <span class="nav-search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </span>
+      <ul class="nav-links">
+        <li><a href="landing.html">Home</a></li>
+        <li><a href="sf-blog.html" class="active">SF-Travel</a></li>
+        <li><a href="wine-blog.html">Wine</a></li>
+        <li><a href="golf-blog.html">Golf</a></li>
+        <li><a href="#">Cine-Journey_Wine</a></li>
+        <li><a href="#">Cine-Journey_Rock</a></li>
+        <li><a href="갤러리.html">갤러리</a></li>
+      </ul>
+    </div>
+    <div class="nav-right">
+      <a href="https://www.facebook.com/" title="Facebook">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+      </a>
+      <a href="https://instagram.com/" title="Instagram">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>
+      </a>
+      <a href="https://pinterest.com/" title="Pinterest">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.08 3.12 9.44 7.62 11.22-.1-.94-.2-2.38.04-3.4.22-.9 1.46-6.18 1.46-6.18s-.37-.75-.37-1.86c0-1.74 1.01-3.04 2.27-3.04 1.07 0 1.59.8 1.59 1.76 0 1.08-.69 2.69-1.04 4.18-.3 1.25.62 2.27 1.84 2.27 2.2 0 3.9-2.33 3.9-5.68 0-2.97-2.13-5.04-5.18-5.04-3.53 0-5.6 2.64-5.6 5.38 0 1.07.41 2.21.92 2.84.1.12.11.23.08.35-.09.38-.3 1.25-.34 1.43-.05.23-.18.28-.41.17C5.3 15.25 4 12.9 4 10.62 4 6.38 7.3 2.1 13.07 2.1c4.67 0 8.3 3.33 8.3 7.77 0 4.63-2.92 8.36-6.97 8.36-1.36 0-2.64-.71-3.08-1.54l-.84 3.13c-.3 1.17-1.12 2.63-1.67 3.52C10.06 23.92 11.02 24 12 24c6.63 0 12-5.37 12-12S18.63 0 12 0z"/></svg>
+      </a>
+      <a href="https://twitter.com/" title="Twitter">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </a>
+    </div>
+  </nav>
+</div>
+
+
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-icon">🌁</div>
+    <div class="hero-tag">San Francisco, California</div>
+    <h1>안개 속의 도시<br><em>샌프란시스코</em></h1>
+    <p>금문교부터 차이나타운, 피셔맨스 워프까지 — 세계에서 가장 아름다운 도시의 구석구석을 걷다</p>
+  </div>
+</section>
+
+<!-- QUICK FACTS -->
+<div class="quick-facts">
+  <div class="qf-item">
+    <div class="qf-icon">🌡️</div>
+    <div class="qf-label">연평균 기온</div>
+    <div class="qf-val">14–17°C (서늘)</div>
+  </div>
+  <div class="qf-item">
+    <div class="qf-icon">✈️</div>
+    <div class="qf-label">한국 → SFO</div>
+    <div class="qf-val">약 10–11시간</div>
+  </div>
+  <div class="qf-item">
+    <div class="qf-icon">🕐</div>
+    <div class="qf-label">시차</div>
+    <div class="qf-val">한국 -17시간 (PDT)</div>
+  </div>
+  <div class="qf-item">
+    <div class="qf-icon">💵</div>
+    <div class="qf-label">물가 수준</div>
+    <div class="qf-val">매우 높음 (미국 TOP 3)</div>
+  </div>
+</div>
+
+<!-- INTRO -->
+<div class="intro">
+  <p class="eyebrow">City Guide</p>
+  <h2>왜 샌프란시스코인가?</h2>
+  <p>세계 어느 도시와도 다른 독특한 매력이 있습니다. 안개가 금문교를 감싸는 아침의 신비로움, 케이블카가 가파른 언덕을 오르는 소리, 피셔맨스 워프에서 퍼지는 클램 차우더 향기 — SF는 오감을 자극하는 도시입니다. 실리콘밸리와 인접해 혁신의 에너지가 넘치고, 다양한 문화가 공존하는 진정한 용광로입니다.</p>
+</div>
+
+<!-- NEIGHBORHOODS -->
+<section style="padding: 20px 40px 60px; max-width: 960px; margin: 0 auto;">
+  <div class="section-header" style="text-align:center; margin-bottom: 36px;">
+    <p class="eyebrow">Neighborhoods</p>
+    <h2 style="font-size:1.8rem; font-weight:400; color:var(--primary);">동네별 여행 가이드</h2>
+  </div>
+  <div class="nbhd-grid">
+    <div class="nbhd-card">
+      <div class="nbhd-header" style="background: linear-gradient(135deg, #8B0000, #b22222);">
+        <div class="nbhd-icon">🏮</div>
+        <h3>차이나타운</h3>
+        <p>미국 최초 차이나타운</p>
+      </div>
+      <div class="nbhd-photo">
+        <img data-wiki="Chinatown,_San_Francisco" alt="SF 차이나타운" loading="lazy">
+      </div>
+      <div class="nbhd-body">
+        <p class="desc">1848년에 형성된 북미 최초이자 최대 차이나타운. 드래곤 게이트를 지나면 딤섬 식당, 한약방, 기념품 가게들이 가득합니다.</p>
+        <p class="must-see"><strong>머스트두:</strong> <span>딤섬 브런치 · Grant Ave 산책 · 포춘 쿠키 공장</span></p>
+      </div>
+    </div>
+    <div class="nbhd-card">
+      <div class="nbhd-header" style="background: linear-gradient(135deg, #2c5364, #0f3460);">
+        <div class="nbhd-icon">⛵</div>
+        <h3>피셔맨스 워프</h3>
+        <p>SF 최대 관광 허브</p>
+      </div>
+      <div class="nbhd-photo">
+        <img data-wiki="Pier_39" alt="피셔맨스 워프 Pier 39" loading="lazy">
+      </div>
+      <div class="nbhd-body">
+        <p class="desc">해산물 레스토랑이 즐비한 워터프론트. 클램 차우더 수프 보울은 SF 대표 음식. 피어 39에서는 바다사자 떼를 볼 수 있습니다.</p>
+        <p class="must-see"><strong>머스트두:</strong> <span>Boudin 빵 수프 · Pier 39 · 알카트라즈 투어</span></p>
+      </div>
+    </div>
+    <div class="nbhd-card">
+      <div class="nbhd-header" style="background: linear-gradient(135deg, #4a1942, #7b2d8b);">
+        <div class="nbhd-icon">🏳️‍🌈</div>
+        <h3>카스트로 & 미션</h3>
+        <p>문화와 다양성의 중심</p>
+      </div>
+      <div class="nbhd-photo">
+        <img data-wiki="Castro_District,_San_Francisco" alt="카스트로 & 미션" loading="lazy">
+      </div>
+      <div class="nbhd-body">
+        <p class="desc">SF의 진보적 문화가 가장 강하게 느껴지는 곳. 미션 지구의 멕시칸 타코와 무랄(벽화)은 꼭 경험해야 합니다.</p>
+        <p class="must-see"><strong>머스트두:</strong> <span>Mission burrito · Dolores Park · Castro Theatre</span></p>
+      </div>
+    </div>
+    <div class="nbhd-card">
+      <div class="nbhd-header" style="background: linear-gradient(135deg, #1a3a5c, var(--sf));">
+        <div class="nbhd-icon">📚</div>
+        <h3>노스 비치</h3>
+        <p>비트 제너레이션의 발상지</p>
+      </div>
+      <div class="nbhd-photo">
+        <img data-wiki="North_Beach,_San_Francisco" alt="노스 비치" loading="lazy">
+      </div>
+      <div class="nbhd-body">
+        <p class="desc">잭 케루악, 앨런 긴즈버그 등 비트 작가들이 사랑한 동네. City Lights 서점은 SF 문학의 성지입니다.</p>
+        <p class="must-see"><strong>머스트두:</strong> <span>City Lights 서점 · Vesuvio 바 · 이탈리안 카페</span></p>
+      </div>
+    </div>
+    <div class="nbhd-card">
+      <div class="nbhd-header" style="background: linear-gradient(135deg, #1d3b2a, #2D6A4F);">
+        <div class="nbhd-icon">🌿</div>
+        <h3>헤이트 애시버리</h3>
+        <p>히피 문화의 발상지</p>
+      </div>
+      <div class="nbhd-photo">
+        <img data-wiki="Haight-Ashbury" alt="헤이트 애시버리" loading="lazy">
+      </div>
+      <div class="nbhd-body">
+        <p class="desc">1967년 '사랑의 여름' 무대. 빈티지 숍과 레코드 가게들이 가득하고, 골든 게이트 공원과 인접해 있습니다.</p>
+        <p class="must-see"><strong>머스트두:</strong> <span>빈티지 쇼핑 · 파네라 피자 · 골든게이트파크 피크닉</span></p>
+      </div>
+    </div>
+    <div class="nbhd-card">
+      <div class="nbhd-header" style="background: linear-gradient(135deg, #3d3000, #8B6914);">
+        <div class="nbhd-icon">🏔️</div>
+        <h3>노브 힐 & 러시안 힐</h3>
+        <p>SF 최고의 뷰포인트</p>
+      </div>
+      <div class="nbhd-photo">
+        <img data-wiki="Lombard_Street_(San_Francisco)" alt="롬바드 스트리트" loading="lazy">
+      </div>
+      <div class="nbhd-body">
+        <p class="desc">세계에서 가장 구불구불한 도로 롬바드 스트리트가 있는 곳. 언덕 위에서 바라보는 SF 전경은 압도적입니다.</p>
+        <p class="must-see"><strong>머스트두:</strong> <span>롬바드 스트리트 · 그레이스 성당 · 케이블카 탑승</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TOP ATTRACTIONS -->
+<section class="attractions">
+  <div class="section-header">
+    <p class="eyebrow">Must-See Attractions</p>
+    <h2>꼭 가봐야 할 명소 TOP 8</h2>
+  </div>
+  <div class="attr-grid">
+    <div class="attr-card">
+      <span class="attr-icon">🌉</span>
+      <div>
+        <h4>금문교 (Golden Gate Bridge)</h4>
+        <p>세계에서 가장 아름다운 다리 중 하나. 사진 스팟은 배터리 스펜서(북단), 마린 헤드랜즈, 크리시 필드. 걸어서 건너볼 수 있습니다 (약 1.7km).</p>
+        <div class="attr-meta">
+          <span class="meta-tag">무료 관람</span>
+          <span class="meta-tag">포토 스팟</span>
+        </div>
+      </div>
+    </div>
+    <div class="attr-card">
+      <span class="attr-icon">🏝️</span>
+      <div>
+        <h4>알카트라즈 섬 (Alcatraz Island)</h4>
+        <p>1934–1963년 운영된 전설의 연방 교도소. 오디오 가이드 투어가 매우 잘 되어 있습니다. 일몰 후 나이트 투어가 특히 분위기 있습니다.</p>
+        <div class="attr-meta">
+          <span class="meta-tag">사전 예약 필수</span>
+          <span class="meta-tag">약 $45</span>
+        </div>
+      </div>
+    </div>
+    <div class="attr-card">
+      <span class="attr-icon">🌳</span>
+      <div>
+        <h4>골든 게이트 파크</h4>
+        <p>뉴욕 센트럴파크보다 큰 도심 공원. 드 영 뮤지엄, 일본식 정원(Japanese Tea Garden), 식물원 등이 내부에 있습니다.</p>
+        <div class="attr-meta">
+          <span class="meta-tag">입장 무료</span>
+          <span class="meta-tag">반나절 소요</span>
+        </div>
+      </div>
+    </div>
+    <div class="attr-card">
+      <span class="attr-icon">🚃</span>
+      <div>
+        <h4>케이블카 (Cable Car)</h4>
+        <p>1873년부터 운행 중인 세계 유일의 이동 국가기념물. Powell-Hyde 라인이 가장 경치가 좋습니다. 클럼비아 광장에서 피셔맨스 워프까지 연결.</p>
+        <div class="attr-meta">
+          <span class="meta-tag">1회 $8</span>
+          <span class="meta-tag">MUNI 패스 사용 가능</span>
+        </div>
+      </div>
+    </div>
+    <div class="attr-card">
+      <span class="attr-icon">🔭</span>
+      <div>
+        <h4>트윈 픽스 (Twin Peaks)</h4>
+        <p>해발 282m의 두 봉우리에서 SF 전체를 360도 조망. 날씨가 맑은 날에는 멀리 마운트 타말파이스까지 보입니다. 일출·일몰 모두 환상적.</p>
+        <div class="attr-meta">
+          <span class="meta-tag">무료</span>
+          <span class="meta-tag">일몰 추천</span>
+        </div>
+      </div>
+    </div>
+    <div class="attr-card">
+      <span class="attr-icon">🏛️</span>
+      <div>
+        <h4>Palace of Fine Arts</h4>
+        <p>1915년 파나마-태평양 박람회를 위해 건축된 신고전주의 양식의 걸작. 돔과 원형 열주가 호수에 반영되는 풍경은 SF에서 가장 낭만적인 포토스팟입니다. 마리나 지구 위치.</p>
+        <div class="attr-meta">
+          <span class="meta-tag">무료 입장</span>
+          <span class="meta-tag">포토스팟 최고</span>
+        </div>
+      </div>
+    </div>
+    <div class="attr-card">
+      <span class="attr-icon">🏛️</span>
+      <div>
+        <h4>드 영 뮤지엄 (de Young Museum)</h4>
+        <p>세계적 수준의 예술 컬렉션. 빌딩 타워에서 골든 게이트 파크 전체가 내려다보입니다. 금요일 저녁에는 나이트라이프 이벤트도 열립니다.</p>
+        <div class="attr-meta">
+          <span class="meta-tag">$35 성인</span>
+          <span class="meta-tag">금요일 야간 추천</span>
+        </div>
+      </div>
+    </div>
+    <div class="attr-card">
+      <span class="attr-icon">🛥️</span>
+      <div>
+        <h4>베이 크루즈 (Bay Cruise)</h4>
+        <p>금문교 아래를 지나는 1시간 크루즈. 바다 위에서 SF 스카이라인과 알카트라즈를 감상하는 최고의 방법. 블루 앤 골드 플릿에서 출발.</p>
+        <div class="attr-meta">
+          <span class="meta-tag">약 $30</span>
+          <span class="meta-tag">Pier 39 출발</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOD -->
+<section class="food-section">
+  <div class="section-header">
+    <p class="eyebrow">Food & Dining</p>
+    <h2>SF 대표 음식 & 맛집</h2>
+  </div>
+  <div class="food-grid">
+    <div class="food-card">
+      <div class="food-header">
+        <span class="icon">🍞</span>
+        <div>
+          <h4>사워도우 빵</h4>
+          <p>SF의 상징적 음식</p>
+        </div>
+      </div>
+      <div class="food-body">
+        <p>SF 특유의 안개와 서늘한 기후가 사워도우 발효균에 최적 환경을 만들어 세계 어디서도 같은 맛이 안 납니다.</p>
+        <div class="food-recs"><strong>추천:</strong><p>Boudin Bakery (Fisherman's Wharf), Tartine Bakery (Mission)</p></div>
+      </div>
+    </div>
+    <div class="food-card">
+      <div class="food-header">
+        <span class="icon">🦀</span>
+        <div>
+          <h4>더니스 크랩 & 씨푸드</h4>
+          <p>태평양 해산물의 정수</p>
+        </div>
+      </div>
+      <div class="food-body">
+        <p>11월–4월이 더니스 크랩 시즌. 사워도우 수프 보울에 클램 차우더를 담아 먹는 조합이 SF 명물입니다.</p>
+        <div class="food-recs"><strong>추천:</strong><p>Alioto's, Scoma's, Nick's Lighthouse (Fisherman's Wharf)</p></div>
+      </div>
+    </div>
+    <div class="food-card">
+      <div class="food-header">
+        <span class="icon">🌮</span>
+        <div>
+          <h4>미션 스타일 부리또</h4>
+          <p>SF가 발명한 대형 부리또</p>
+        </div>
+      </div>
+      <div class="food-body">
+        <p>1960년대 미션 지구의 멕시칸 이민자들이 만들어낸 SF만의 부리또 스타일. 알루미늄 호일에 싸인 대형 부리또.</p>
+        <div class="food-recs"><strong>추천:</strong><p>La Taqueria, El Farolito, Papalote Mexican Grill</p></div>
+      </div>
+    </div>
+    <div class="food-card">
+      <div class="food-header">
+        <span class="icon">☕</span>
+        <div>
+          <h4>스페셜티 커피</h4>
+          <p>제3의 물결 커피의 발상지</p>
+        </div>
+      </div>
+      <div class="food-body">
+        <p>Blue Bottle Coffee가 SF에서 시작됐습니다. 필터 커피 한 잔에 $8이지만 그만한 가치가 있는 커피 문화를 경험할 수 있습니다.</p>
+        <div class="food-recs"><strong>추천:</strong><p>Blue Bottle Coffee, Sightglass, Four Barrel Coffee</p></div>
+      </div>
+    </div>
+    <div class="food-card">
+      <div class="food-header">
+        <span class="icon">🍜</span>
+        <div>
+          <h4>다국적 푸드 씬</h4>
+          <p>세계 음식 축제장</p>
+        </div>
+      </div>
+      <div class="food-body">
+        <p>한인타운(Tenderloin), 일본타운(Japantown), 차이나타운까지 — SF는 세계 음식을 한 도시에서 경험할 수 있는 드문 도시입니다.</p>
+        <div class="food-recs"><strong>추천:</strong><p>Japan Center (Japantown), Koreatown Bistro (Tenderloin)</p></div>
+      </div>
+    </div>
+    <div class="food-card">
+      <div class="food-header">
+        <span class="icon">🍷</span>
+        <div>
+          <h4>파인 다이닝</h4>
+          <p>미슐랭 별이 빛나는 도시</p>
+        </div>
+      </div>
+      <div class="food-body">
+        <p>SF에는 미슐랭 스타 레스토랑이 밀집해 있습니다. 특별한 저녁식사를 원한다면 3–4개월 전 예약이 필수입니다.</p>
+        <div class="food-recs"><strong>추천:</strong><p>Quince (3-star), Benu (3-star), Atelier Crenn (3-star)</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRANSPORT -->
+<section class="transport">
+  <div class="section-header">
+    <p class="eyebrow">Getting Around</p>
+    <h2 style="color:#fff; font-size:1.8rem; font-weight:400;">SF 교통 완전 가이드</h2>
+  </div>
+  <div class="transport-grid">
+    <div class="transport-card">
+      <div class="t-icon">🚃</div>
+      <h4>케이블카</h4>
+      <p>관광용으로 최적. 1회 $8. MUNI Passport (1일 $24)로 무제한 이용 가능.</p>
+    </div>
+    <div class="transport-card">
+      <div class="t-icon">🚇</div>
+      <h4>BART & MUNI</h4>
+      <p>지하철+버스 통합 시스템. SFO 공항에서 시내까지 BART로 30분, $11.</p>
+    </div>
+    <div class="transport-card">
+      <div class="t-icon">🚗</div>
+      <h4>우버 / 리프트</h4>
+      <p>짧은 이동에 편리. SF 시내 주차는 매우 어렵고 비싸므로 렌터카는 비추천.</p>
+    </div>
+    <div class="transport-card">
+      <div class="t-icon">🚶</div>
+      <h4>도보</h4>
+      <p>주요 관광지는 걸어서 이동 가능. 단, SF는 언덕이 많아 편한 신발 필수.</p>
+    </div>
+  </div>
+</section>
+
+<!-- DAY TRIPS -->
+<section class="daytrips">
+  <div class="section-header" style="text-align:center;">
+    <p class="eyebrow">Day Trips</p>
+    <h2 style="font-size:1.8rem; font-weight:400; color:var(--primary);">SF에서 당일치기 여행</h2>
+  </div>
+  <div class="trip-list" style="margin-top:36px;">
+    <div class="trip-item">
+      <div class="trip-distance">
+        <span class="dist">1h</span>
+        <span class="unit">차로</span>
+      </div>
+      <div class="trip-info">
+        <h4>🍷 나파밸리 (Napa Valley)</h4>
+        <p>세계적인 와인 산지. 당일치기로 2–3개 와이너리 방문 가능. 투어 버스 옵션도 있음.</p>
+      </div>
+    </div>
+    <div class="trip-item">
+      <div class="trip-distance">
+        <span class="dist">1.5h</span>
+        <span class="unit">차로</span>
+      </div>
+      <div class="trip-info">
+        <h4>🦁 포인트 레이스 국립해안 (Point Reyes)</h4>
+        <p>태평양 절벽과 등대, 철새 서식지. 신선한 굴 요리로 유명한 Tomales Bay도 인근.</p>
+      </div>
+    </div>
+    <div class="trip-item">
+      <div class="trip-distance">
+        <span class="dist">2h</span>
+        <span class="unit">차로</span>
+      </div>
+      <div class="trip-info">
+        <h4>🌲 뮤어 우즈 & 몬테레이 (Muir Woods)</h4>
+        <p>수천 년 된 레드우드 숲. 모노터리까지 내려가면 페블비치까지 포함한 명코스 여행 가능.</p>
+      </div>
+    </div>
+    <div class="trip-item">
+      <div class="trip-distance">
+        <span class="dist">1h</span>
+        <span class="unit">차로</span>
+      </div>
+      <div class="trip-info">
+        <h4>💻 실리콘밸리 (Silicon Valley)</h4>
+        <p>Apple Park, Google HQ, Computer History Museum. 미래 기술의 산실을 직접 느껴볼 수 있음.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRACTICAL -->
+<section class="practical">
+  <div class="section-header">
+    <p class="eyebrow">Practical Tips</p>
+    <h2 style="font-size:1.8rem; font-weight:400; color:var(--primary);">알아두면 좋은 여행 정보</h2>
+  </div>
+  <div class="practical-grid">
+    <div class="prac-card">
+      <h4>🌧️ 날씨 & 옷차림</h4>
+      <p>SF는 "겨울 속 여름"이 있는 도시. 8월이 가장 안개가 많고 오히려 쌀쌀합니다. 레이어드 옷차림 필수. 재킷은 사계절 필수품.</p>
+    </div>
+    <div class="prac-card">
+      <h4>💰 팁 문화</h4>
+      <p>레스토랑 18–22%, 택시/우버 15–20%, 호텔 하우스키핑 $2–5/night. SF는 팁이 없으면 서비스가 노골적으로 달라집니다.</p>
+    </div>
+    <div class="prac-card">
+      <h4>🏨 숙박 추천 지역</h4>
+      <p>피셔맨스 워프 (관광 편리), 유니언 스퀘어 (쇼핑), 미션/카스트로 (로컬 분위기). 호텔 평균 $250–400/night.</p>
+    </div>
+    <div class="prac-card">
+      <h4>📱 유용한 앱</h4>
+      <p>Clipper Card App (교통), Uber/Lyft, OpenTable (레스토랑 예약), SF Parks (골든게이트파크 이벤트), Alcatraz Cruises.</p>
+    </div>
+    <div class="prac-card">
+      <h4>⚠️ 안전 주의</h4>
+      <p>텐더로인 지구와 SoMa 일부는 밤에 주의 필요. 차량 내 물건 절대 방치 금지 — 차창 파손 절도 흔함. 카드 지갑 앞주머니 보관.</p>
+    </div>
+    <div class="prac-card">
+      <h4>🎟️ 시티패스</h4>
+      <p>City Pass ($105)로 알카트라즈, 드 영 뮤지엄, 베이 크루즈, 동물원 등 입장료 통합 할인. 3일 이상 체류 시 매우 유리.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-bar">
+  <h2>다른 여행 이야기도 보세요</h2>
+  <p>SF에서 한 시간, 캘리포니아의 또 다른 매력이 기다립니다</p>
+  <div class="cta-btns">
+    <a href="wine-blog.html" class="btn-primary">🍷 와인 여행 보기</a>
+    <a href="golf-blog.html" class="btn-outline">⛳ 골프 여행 보기</a>
+  </div>
+</section>
+
+<footer>
+  <strong>MK Travel — San Francisco Blog</strong><br>
+  <small>샌프란시스코 여행 가이드 · 문규 김 · 2026</small>
+  <div class="other-blogs">
+    <a href="landing.html">🏠 홈으로</a>
+    <a href="wine-blog.html">🍷 와인</a>
+    <a href="golf-blog.html">⛳ 골프</a>
+  </div>
+</footer>
+
+<script>
+  // Wikipedia REST API로 각 동네 대표 이미지 자동 로드
+  document.querySelectorAll('.nbhd-photo img[data-wiki]').forEach(async img => {
+    const wiki = img.dataset.wiki;
+    try {
+      const res = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${wiki}`);
+      const data = await res.json();
+      const src = data.originalimage?.source || data.thumbnail?.source;
+      if (src) {
+        img.src = src;
+        img.onerror = () => img.parentElement.style.display = 'none';
+      } else {
+        img.parentElement.style.display = 'none';
+      }
+    } catch(e) {
+      img.parentElement.style.display = 'none';
+    }
+  });
+</script>
+
+</body>
+</html>

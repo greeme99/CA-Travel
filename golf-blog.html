@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Golf Blog — 캘리포니아 골프 여행 | MK Travel</title>
+<meta name="description" content="페블비치, 토리파인스, 스파이글라스 — 캘리포니아 세계 최고 골프 코스 가이드">
+<style>
+  :root {
+    --primary: #1a1a2e;
+    --golf: #2D6A4F;
+    --golf-light: #52b788;
+    --golf-pale: #e8f5e9;
+    --accent: #c8a951;
+    --text: #2c2c2c;
+    --light-bg: #f5faf7;
+    --border: #d0e8d8;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Georgia', serif; background: #fff; color: var(--text); }
+
+  .nav-wrapper {
+    background: #fff;
+    border-bottom: 1px solid #e8e8e8;
+    position: sticky;
+    top: 0;
+    z-index: 200;
+  }
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 32px;
+    height: 56px;
+  }
+  .nav-left {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .nav-search {
+    font-size: 1rem;
+    color: #555;
+    cursor: pointer;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+  }
+  .nav-links {
+    display: flex;
+    list-style: none;
+    gap: 0;
+  }
+  .nav-links li a {
+    display: block;
+    padding: 0 16px;
+    font-family: 'Lato', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    color: #333;
+    text-decoration: none;
+    letter-spacing: 0.3px;
+    line-height: 56px;
+    transition: color 0.2s;
+  }
+  .nav-links li a:hover,
+  .nav-links li a.active { color: #b07a8a; }
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .nav-right a {
+    display: flex;
+    align-items: center;
+    color: #555;
+    font-size: 14px;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-right a:hover { color: #b07a8a; }
+
+  .hero {
+    background: linear-gradient(135deg, #0d2a1a 0%, var(--golf) 60%, #52b788 100%);
+    color: #fff; padding: 90px 40px 70px;
+    text-align: center; position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute; inset: 0;
+    background: url('https://static.wixstatic.com/media/98e43a_63a720509b5642aabda7371531d55be1~mv2.jpg') center/cover;
+    opacity: 0.15;
+  }
+  .hero-content { position: relative; z-index: 1; }
+  .hero-icon { font-size: 4rem; margin-bottom: 16px; filter: drop-shadow(0 2px 12px rgba(0,0,0,0.4)); }
+  .hero-tag {
+    display: inline-block; border: 1px solid rgba(200,169,81,0.6); color: var(--accent);
+    font-family: 'Segoe UI', sans-serif; font-size: 0.7rem; letter-spacing: 4px;
+    text-transform: uppercase; padding: 5px 16px; margin-bottom: 20px;
+  }
+  .hero h1 { font-size: 2.8rem; font-weight: 400; line-height: 1.2; margin-bottom: 14px; }
+  .hero h1 em { font-style: italic; color: var(--accent); }
+  .hero p { font-family: 'Segoe UI', sans-serif; font-size: 1rem; opacity: 0.75; max-width: 500px; margin: 0 auto; }
+
+
+  /* STATS BAR */
+  .stats-bar {
+    background: var(--golf); color: #fff;
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    text-align: center; padding: 0;
+  }
+  .stat-item { padding: 28px 20px; border-right: 1px solid rgba(255,255,255,0.15); }
+  .stat-item:last-child { border-right: none; }
+  .stat-num { font-size: 2rem; font-weight: 700; color: var(--accent); font-family: 'Segoe UI', sans-serif; }
+  .stat-label { font-family: 'Segoe UI', sans-serif; font-size: 0.78rem; opacity: 0.8; margin-top: 4px; }
+
+  /* INTRO */
+  .intro { max-width: 760px; margin: 0 auto; padding: 60px 40px 40px; text-align: center; }
+  .intro .eyebrow { font-family: 'Segoe UI', sans-serif; font-size: 0.72rem; letter-spacing: 4px; text-transform: uppercase; color: var(--golf); margin-bottom: 12px; }
+  .intro h2 { font-size: 1.8rem; font-weight: 400; color: var(--primary); margin-bottom: 16px; }
+  .intro p { font-family: 'Segoe UI', sans-serif; font-size: 0.97rem; color: #666; line-height: 1.8; }
+
+  /* COURSE CARDS */
+  .courses { padding: 20px 40px 80px; max-width: 960px; margin: 0 auto; }
+  .course-card {
+    display: grid; grid-template-columns: 1fr 1.2fr;
+    gap: 0; margin-bottom: 48px;
+    border-radius: 16px; overflow: hidden;
+    box-shadow: 0 6px 28px rgba(0,0,0,0.09);
+  }
+  .course-card.reverse { direction: rtl; }
+  .course-card.reverse > * { direction: ltr; }
+  .course-visual {
+    display: flex; align-items: center; justify-content: center;
+    font-size: 5rem; position: relative;
+    min-height: 300px;
+    overflow: hidden;
+  }
+  .course-visual img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: center;
+  }
+  .course-num-overlay {
+    position: absolute; top: 20px; left: 20px;
+    background: rgba(0,0,0,0.5); color: var(--accent);
+    font-family: 'Segoe UI', sans-serif; font-size: 0.72rem; font-weight: 700;
+    letter-spacing: 2px; text-transform: uppercase;
+    padding: 5px 12px; border-radius: 20px; backdrop-filter: blur(4px);
+  }
+  .course-content {
+    background: #fff; padding: 36px 40px;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .course-rank { font-family: 'Segoe UI', sans-serif; font-size: 0.7rem; letter-spacing: 3px; text-transform: uppercase; color: var(--golf); margin-bottom: 8px; }
+  .course-content h3 { font-size: 1.5rem; font-weight: 600; color: var(--primary); margin-bottom: 6px; }
+  .course-location { font-family: 'Segoe UI', sans-serif; font-size: 0.82rem; color: #999; margin-bottom: 14px; }
+  .course-content p { font-family: 'Segoe UI', sans-serif; font-size: 0.9rem; color: #666; line-height: 1.8; margin-bottom: 20px; }
+  .course-specs {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+  }
+  .spec {
+    background: var(--light-bg); border-left: 3px solid var(--golf);
+    padding: 10px 14px; border-radius: 4px;
+  }
+  .spec h4 { font-family: 'Segoe UI', sans-serif; font-size: 0.78rem; font-weight: 700; color: var(--golf); margin-bottom: 2px; }
+  .spec p { font-size: 0.78rem; color: #777; }
+
+  /* RANKING TABLE */
+  .ranking-section { background: var(--light-bg); padding: 72px 40px; }
+  .ranking-section .section-header { text-align: center; margin-bottom: 40px; }
+  .ranking-section .eyebrow { font-family: 'Segoe UI', sans-serif; font-size: 0.7rem; letter-spacing: 4px; text-transform: uppercase; color: var(--golf); margin-bottom: 10px; }
+  .ranking-section h2 { font-size: 1.8rem; font-weight: 400; color: var(--primary); }
+  .ranking-table { width: 100%; max-width: 860px; margin: 0 auto; border-collapse: collapse; font-family: 'Segoe UI', sans-serif; font-size: 0.85rem; }
+  .ranking-table th { background: var(--primary); color: var(--accent); text-align: left; padding: 14px 18px; font-size: 0.78rem; letter-spacing: 1px; text-transform: uppercase; }
+  .ranking-table td { padding: 14px 18px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+  .ranking-table tr:nth-child(even) td { background: rgba(45,106,79,0.04); }
+  .rank-badge {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 30px; height: 30px; border-radius: 50%;
+    font-weight: 900; font-size: 0.85rem;
+  }
+  .rank-1 { background: #c8a951; color: #fff; }
+  .rank-2 { background: #b0b0b0; color: #fff; }
+  .rank-3 { background: #cd7f32; color: #fff; }
+  .rank-n { background: var(--golf-pale); color: var(--golf); }
+  .difficulty { display: flex; gap: 3px; }
+  .d-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--golf); }
+  .d-dot.empty { background: var(--border); }
+
+  /* TIPS */
+  .tips-section { padding: 72px 40px; max-width: 900px; margin: 0 auto; }
+  .tips-section .section-header { text-align: center; margin-bottom: 40px; }
+  .tips-section .eyebrow { font-family: 'Segoe UI', sans-serif; font-size: 0.7rem; letter-spacing: 4px; text-transform: uppercase; color: var(--golf); margin-bottom: 10px; }
+  .tips-section h2 { font-size: 1.8rem; font-weight: 400; color: var(--primary); }
+  .tips-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .tip-card { border: 1px solid var(--border); border-radius: 12px; padding: 24px; }
+  .tip-icon { font-size: 2rem; margin-bottom: 12px; display: block; }
+  .tip-card h4 { font-family: 'Segoe UI', sans-serif; font-size: 0.9rem; font-weight: 700; color: var(--primary); margin-bottom: 6px; }
+  .tip-card p { font-family: 'Segoe UI', sans-serif; font-size: 0.82rem; color: #777; line-height: 1.7; }
+
+  /* PEBBLE BEACH SPECIAL */
+  .pebble-section {
+    background: var(--primary); color: #fff; padding: 80px 40px;
+    position: relative; overflow: hidden;
+  }
+  .pebble-section::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: url('https://static.wixstatic.com/media/98e43a_fc6fb885766345e490a192cdca1d24ad~mv2.png') center/cover;
+    opacity: 0.12;
+  }
+  .pebble-inner { position: relative; z-index: 1; max-width: 800px; margin: 0 auto; text-align: center; }
+  .pebble-inner .eyebrow { font-family: 'Segoe UI', sans-serif; font-size: 0.7rem; letter-spacing: 4px; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; }
+  .pebble-inner h2 { font-size: 2rem; font-weight: 400; margin-bottom: 20px; line-height: 1.3; }
+  .pebble-inner p { font-family: 'Segoe UI', sans-serif; font-size: 0.95rem; opacity: 0.8; line-height: 1.8; margin-bottom: 32px; }
+  .pebble-facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; text-align: left; }
+  .pebble-fact { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; padding: 20px; }
+  .pebble-fact h4 { font-family: 'Segoe UI', sans-serif; font-size: 0.78rem; font-weight: 700; color: var(--accent); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 1px; }
+  .pebble-fact p { font-family: 'Segoe UI', sans-serif; font-size: 0.85rem; opacity: 0.8; }
+
+  /* CTA */
+  .cta-bar { background: var(--golf); color: #fff; text-align: center; padding: 56px 40px; }
+  .cta-bar h2 { font-size: 1.8rem; font-weight: 400; margin-bottom: 10px; }
+  .cta-bar p { font-family: 'Segoe UI', sans-serif; font-size: 0.9rem; opacity: 0.8; margin-bottom: 28px; }
+  .cta-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+  .btn-primary { background: var(--accent); color: var(--primary); padding: 14px 32px; text-decoration: none; font-family: 'Segoe UI', sans-serif; font-size: 0.82rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; border-radius: 4px; }
+  .btn-outline { border: 1px solid rgba(255,255,255,0.5); color: #fff; padding: 14px 32px; text-decoration: none; font-family: 'Segoe UI', sans-serif; font-size: 0.82rem; letter-spacing: 1.5px; text-transform: uppercase; border-radius: 4px; }
+
+  footer { background: var(--primary); color: rgba(255,255,255,0.5); text-align: center; padding: 32px; font-family: 'Segoe UI', sans-serif; font-size: 0.82rem; }
+  footer strong { color: var(--accent); }
+  footer .other-blogs { display: flex; justify-content: center; gap: 24px; margin-top: 16px; }
+  footer .other-blogs a { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.85rem; }
+  footer .other-blogs a:hover { color: var(--accent); }
+
+  @media (max-width: 680px) {
+    .course-card { grid-template-columns: 1fr; }
+    .course-card.reverse { direction: ltr; }
+    .stats-bar { grid-template-columns: repeat(2, 1fr); }
+    .tips-grid { grid-template-columns: 1fr; }
+    .pebble-facts { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 2rem; }
+    .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="nav-wrapper">
+  <nav>
+    <div class="nav-left">
+      <span class="nav-search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </span>
+      <ul class="nav-links">
+        <li><a href="landing.html">Home</a></li>
+        <li><a href="sf-blog.html">SF-Travel</a></li>
+        <li><a href="wine-blog.html">Wine</a></li>
+        <li><a href="golf-blog.html" class="active">Golf</a></li>
+        <li><a href="#">Cine-Journey_Wine</a></li>
+        <li><a href="#">Cine-Journey_Rock</a></li>
+        <li><a href="갤러리.html">갤러리</a></li>
+      </ul>
+    </div>
+    <div class="nav-right">
+      <a href="https://www.facebook.com/" title="Facebook">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+      </a>
+      <a href="https://instagram.com/" title="Instagram">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>
+      </a>
+      <a href="https://pinterest.com/" title="Pinterest">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.08 3.12 9.44 7.62 11.22-.1-.94-.2-2.38.04-3.4.22-.9 1.46-6.18 1.46-6.18s-.37-.75-.37-1.86c0-1.74 1.01-3.04 2.27-3.04 1.07 0 1.59.8 1.59 1.76 0 1.08-.69 2.69-1.04 4.18-.3 1.25.62 2.27 1.84 2.27 2.2 0 3.9-2.33 3.9-5.68 0-2.97-2.13-5.04-5.18-5.04-3.53 0-5.6 2.64-5.6 5.38 0 1.07.41 2.21.92 2.84.1.12.11.23.08.35-.09.38-.3 1.25-.34 1.43-.05.23-.18.28-.41.17C5.3 15.25 4 12.9 4 10.62 4 6.38 7.3 2.1 13.07 2.1c4.67 0 8.3 3.33 8.3 7.77 0 4.63-2.92 8.36-6.97 8.36-1.36 0-2.64-.71-3.08-1.54l-.84 3.13c-.3 1.17-1.12 2.63-1.67 3.52C10.06 23.92 11.02 24 12 24c6.63 0 12-5.37 12-12S18.63 0 12 0z"/></svg>
+      </a>
+      <a href="https://twitter.com/" title="Twitter">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </a>
+    </div>
+  </nav>
+</div>
+
+
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-icon">⛳</div>
+    <div class="hero-tag">California Golf Courses</div>
+    <h1>세계 최고의 <em>18홀</em>을<br>캘리포니아에서</h1>
+    <p>페블비치의 전설부터 바닷바람 속 토리파인스까지 — 골퍼라면 반드시 경험해야 할 캘리포니아 코스들</p>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat-item">
+    <div class="stat-num">900+</div>
+    <div class="stat-label">캘리포니아 골프 코스</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">#1</div>
+    <div class="stat-label">세계 랭킹 — 페블비치 18번 홀</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">$595</div>
+    <div class="stat-label">페블비치 그린피 (평균)</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">365</div>
+    <div class="stat-label">연간 플레이 가능 일수</div>
+  </div>
+</div>
+
+<!-- INTRO -->
+<div class="intro">
+  <p class="eyebrow">Golf Travel Guide</p>
+  <h2>왜 캘리포니아에서 골프를?</h2>
+  <p>연간 300일 이상의 쾌청한 날씨, 태평양을 바라보는 해안 코스, 세계 골프 명예의 전당에 오른 전설적인 레이아웃들 — 캘리포니아는 골퍼들에게 천국입니다. US 오픈이 7번 열린 페블비치부터 군사 기지였던 전직 해병대 캠프를 개조한 토리파인스까지, 각 코스마다 독특한 스토리가 담겨 있습니다.</p>
+</div>
+
+<!-- COURSE DETAIL CARDS -->
+<div class="courses">
+
+  <!-- PEBBLE BEACH -->
+  <div class="course-card">
+    <div class="course-visual">
+      <img src="페블비치 3.jpg" alt="Pebble Beach Golf Links">
+      <div class="course-num-overlay">Course #1 · World Class</div>
+    </div>
+    <div class="course-content">
+      <p class="course-rank">Course 01 — 세계 랭킹 Top 5</p>
+      <h3>Pebble Beach Golf Links</h3>
+      <p class="course-location">📍 Pebble Beach, Monterey Peninsula, CA</p>
+      <p>1919년 개장한 전설의 퍼블릭 코스. 태평양을 끼고 돌아가는 7, 8, 9, 10번 홀은 세계 골프 역사상 가장 아름다운 연속 홀 중 하나로 꼽힙니다. 잭 니클라우스, 타이거 우즈가 US 오픈을 제패한 바로 그 코스입니다.</p>
+      <div class="course-specs">
+        <div class="spec"><h4>⛳ 그린피</h4><p>$595 (resort guest)<br>$695 (public)</p></div>
+        <div class="spec"><h4>📏 파</h4><p>Par 72 · 6,828 yards</p></div>
+        <div class="spec"><h4>🏆 주요 대회</h4><p>US Open 7회, AT&T Pro-Am</p></div>
+        <div class="spec"><h4>📅 예약</h4><p>최소 6개월 전 권장</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SPYGLASS HILL -->
+  <div class="course-card reverse">
+    <div class="course-visual">
+      <img src="SpyglassHill.jpg" alt="Spyglass Hill Golf Course">
+      <div class="course-num-overlay">Course #2 · Challenging</div>
+    </div>
+    <div class="course-content">
+      <p class="course-rank">Course 02 — 몬테레이 반도</p>
+      <h3>Spyglass Hill Golf Course</h3>
+      <p class="course-location">📍 Pebble Beach, Monterey Peninsula, CA</p>
+      <p>Robert Trent Jones Sr.가 설계한 명코스. 처음 5홀은 태평양을 조망하다가 이후 13홀은 몬테레이 파인 숲 속으로 파고드는 극적인 레이아웃이 특징입니다. 페블비치 리조트 패키지로 묶어 플레이하면 최고입니다.</p>
+      <div class="course-specs">
+        <div class="spec"><h4>⛳ 그린피</h4><p>$385 (resort guest)</p></div>
+        <div class="spec"><h4>📏 파</h4><p>Par 72 · 6,953 yards</p></div>
+        <div class="spec"><h4>🌲 특징</h4><p>Ocean + Forest 조합</p></div>
+        <div class="spec"><h4>⭐ 난이도</h4><p>★★★★☆ (상급)</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TORREY PINES -->
+  <div class="course-card">
+    <div class="course-visual">
+      <img src="torreypines.jpg" alt="Torrey Pines Golf Course">
+      <div class="course-num-overlay">Course #3 · San Diego</div>
+    </div>
+    <div class="course-content">
+      <p class="course-rank">Course 03 — 샌디에이고의 보석</p>
+      <h3>Torrey Pines Golf Course</h3>
+      <p class="course-location">📍 La Jolla, San Diego, CA</p>
+      <p>퍼블릭 뮤니시펄 코스임에도 세계 최고 수준. 태평양 절벽 위에 자리해 드라마틱한 경관을 자랑합니다. 2008년 타이거 우즈가 부상에도 불구하고 US 오픈을 제패한 전설적인 코스입니다. South Course가 특히 명성이 높습니다.</p>
+      <div class="course-specs">
+        <div class="spec"><h4>⛳ 그린피</h4><p>$260–$303 (non-resident)</p></div>
+        <div class="spec"><h4>📏 파</h4><p>Par 72 · 7,607 yards (South)</p></div>
+        <div class="spec"><h4>🏆 주요 대회</h4><p>US Open 2008, PGA Tour</p></div>
+        <div class="spec"><h4>💡 팁</h4><p>SD 거주자는 더 저렴</p></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- RANKING TABLE -->
+<section class="ranking-section">
+  <div class="section-header">
+    <p class="eyebrow">Top Courses</p>
+    <h2>캘리포니아 골프 코스 TOP 8</h2>
+  </div>
+  <table class="ranking-table">
+    <thead>
+      <tr>
+        <th>순위</th>
+        <th>코스명</th>
+        <th>위치</th>
+        <th>그린피</th>
+        <th>난이도</th>
+        <th>특징</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="rank-badge rank-1">1</span></td>
+        <td><strong>Pebble Beach Golf Links</strong></td>
+        <td>Monterey</td>
+        <td>$595–695</td>
+        <td>
+          <div class="difficulty">
+            <div class="d-dot"></div><div class="d-dot"></div><div class="d-dot"></div><div class="d-dot"></div><div class="d-dot"></div>
+          </div>
+        </td>
+        <td>US Open 7회 개최</td>
+      </tr>
+      <tr>
+        <td><span class="rank-badge rank-2">2</span></td>
+        <td><strong>Cypress Point Club</strong></td>
+        <td>Monterey</td>
+        <td>회원전용</td>
+        <td>
+          <div class="difficulty">
+            <div class="d-dot"></div><div class="d-dot"></div><div class="d-dot"></div><div class="d-dot"></div><div class="d-dot"></div>
+          </div>
+        </td>
+        <td>세계 Top 5, 프라이빗</td>
+      </tr>
+      <tr>
+        <td><span class="rank-badge rank-3">3</span></td>
+        <td><strong>Torrey Pines (South)</strong></td>
+        <td>San Diego</td>
+        <td>$260–303</td>
+        <td>
+          <div class="difficulty">
+            <div class="d-dot"></div><div class="d-dot"></div><div class="d-dot"></div><div class="d-dot"></div><div class="d-dot empty"></div>
+          </div>
+        </td>
+        <td>퍼블릭 최강 가성비</td>
+      </tr>
+      <tr>
+        <td><span class="rank-badge rank-n">4</span></td>
+        <td><strong>Spyglass Hill</strong></td>
+        <td>Monterey</td>
+        <td>$385</td>
+        <td>
+          <div class="difficulty">
+            <div class="d-dot"></div><div class="d-dot"></div><div class="d-dot"></div><div class="d-dot"></div><div class="d-dot empty"></div>
+          </div>
+        </td>
+        <td>Ocean + Forest 조합</td>
+      </tr>
+      <tr>
+        <td><span class="rank-badge rank-n">5</span></td>
+        <td><strong>Riviera Country Club</strong></td>
+        <td>Los Angeles</td>
+        <td>회원전용</td>
+        <td>
+          <div class="difficulty">
+            <div class="d-dot"></div><div class="d-dot"></div><div class="d-dot"></div><div class="d-dot"></div><div class="d-dot empty"></div>
+          </div>
+        </td>
+        <td>PGA Tour 매년 개최</td>
+      </tr>
+      <tr>
+        <td><span class="rank-badge rank-n">6</span></td>
+        <td><strong>Pasatiempo Golf Club</strong></td>
+        <td>Santa Cruz</td>
+        <td>$195–295</td>
+        <td>
+          <div class="difficulty">
+            <div class="d-dot"></div><div class="d-dot"></div><div class="d-dot"></div><div class="d-dot"></div><div class="d-dot empty"></div>
+          </div>
+        </td>
+        <td>Alister MacKenzie 설계</td>
+      </tr>
+      <tr>
+        <td><span class="rank-badge rank-n">7</span></td>
+        <td><strong>Poppy Hills Golf Course</strong></td>
+        <td>Monterey</td>
+        <td>$175–210</td>
+        <td>
+          <div class="difficulty">
+            <div class="d-dot"></div><div class="d-dot"></div><div class="d-dot"></div><div class="d-dot empty"></div><div class="d-dot empty"></div>
+          </div>
+        </td>
+        <td>AT&T Pro-Am 코스</td>
+      </tr>
+      <tr>
+        <td><span class="rank-badge rank-n">8</span></td>
+        <td><strong>Half Moon Bay Golf Links</strong></td>
+        <td>Half Moon Bay</td>
+        <td>$150–220</td>
+        <td>
+          <div class="difficulty">
+            <div class="d-dot"></div><div class="d-dot"></div><div class="d-dot"></div><div class="d-dot empty"></div><div class="d-dot empty"></div>
+          </div>
+        </td>
+        <td>SF 근처 해안 코스</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- PEBBLE BEACH SPECIAL -->
+<section class="pebble-section">
+  <div class="pebble-inner">
+    <p class="eyebrow">Spotlight</p>
+    <h2>페블비치 — 버킷리스트 No.1</h2>
+    <p>세계에서 가장 아름다운 퍼블릭 골프 코스로 꼽히는 페블비치. 태평양을 끼고 이어지는 해안 홀들과 캘리포니아의 투명한 하늘은 골프라는 스포츠를 예술로 승화시킵니다. 한 번이라도 여기서 플레이한 골퍼는 평생 그 날을 기억합니다.</p>
+    <div class="pebble-facts">
+      <div class="pebble-fact">
+        <h4>🏨 숙박 팁</h4>
+        <p>The Lodge at Pebble Beach 투숙시 우선 예약권 부여. 가격이 비싸지만 최고의 경험을 제공합니다. ($800+/night)</p>
+      </div>
+      <div class="pebble-fact">
+        <h4>📅 예약 방법</h4>
+        <p>공식 사이트 pebblebeach.com에서 온라인 예약 가능. 비성수기(11–2월)는 상대적으로 여유 있음.</p>
+      </div>
+      <div class="pebble-fact">
+        <h4>⭐ 명홀 추천</h4>
+        <p>7번 홀(Par 3, 106야드): 태평양 절벽 끝 그린으로 치는 세계에서 가장 유명한 파3 홀.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TIPS -->
+<section class="tips-section">
+  <div class="section-header">
+    <p class="eyebrow">Golfer's Tips</p>
+    <h2>캘리포니아 골프 여행 꿀팁</h2>
+  </div>
+  <div class="tips-grid">
+    <div class="tip-card">
+      <span class="tip-icon">📅</span>
+      <h4>예약은 최소 3–6개월 전</h4>
+      <p>페블비치는 6개월 전 예약이 권장됩니다. 토리파인스는 2–3개월 전이면 충분하지만 주말 티타임은 빨리 마감됩니다.</p>
+    </div>
+    <div class="tip-card">
+      <span class="tip-icon">🌤️</span>
+      <h4>오전 티타임 선택</h4>
+      <p>해안 코스는 오후에 바람이 강해집니다. 특히 페블비치는 오전 8–10시 티타임이 날씨와 경관 모두 최고입니다.</p>
+    </div>
+    <div class="tip-card">
+      <span class="tip-icon">🏌️</span>
+      <h4>캐디 서비스 강력 추천</h4>
+      <p>페블비치의 캐디들은 수십 년 경력의 전문가들입니다. $70–100의 팁을 포함해도 라운드 경험이 완전히 달라집니다.</p>
+    </div>
+    <div class="tip-card">
+      <span class="tip-icon">🧥</span>
+      <h4>겨울에도 레이어링 필수</h4>
+      <p>캘리포니아 해안은 여름에도 새벽에는 쌀쌀합니다. 방풍 재킷을 반드시 챙기세요. 특히 몬테레이 반도는 안개가 자주 낍니다.</p>
+    </div>
+    <div class="tip-card">
+      <span class="tip-icon">🚗</span>
+      <h4>렌터카 필수</h4>
+      <p>대중교통으로 대부분의 골프 코스에 접근하기 어렵습니다. 특히 몬테레이 반도는 렌터카 없이는 여러 코스를 효율적으로 돌기 힘듭니다.</p>
+    </div>
+    <div class="tip-card">
+      <span class="tip-icon">🍽️</span>
+      <h4>클럽하우스 식사도 경험</h4>
+      <p>페블비치 Stillwater Bar & Grill, 스파이글라스 Hill Clubhouse 등 코스 레스토랑에서 식사하면 골프 여행의 완성도가 높아집니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-bar">
+  <h2>다른 여행 이야기도 보세요</h2>
+  <p>골프 코스 너머 캘리포니아의 또 다른 매력을 발견하세요</p>
+  <div class="cta-btns">
+    <a href="wine-blog.html" class="btn-primary">🍷 와인 여행 보기</a>
+    <a href="sf-blog.html" class="btn-outline">🌁 샌프란시스코 보기</a>
+  </div>
+</section>
+
+<footer>
+  <strong>MK Travel — Golf Blog</strong><br>
+  <small>캘리포니아 골프 여행 가이드 · 문규 김 · 2026</small>
+  <div class="other-blogs">
+    <a href="landing.html">🏠 홈으로</a>
+    <a href="wine-blog.html">🍷 와인</a>
+    <a href="sf-blog.html">🌁 샌프란시스코</a>
+  </div>
+</footer>
+
+</body>
+</html>

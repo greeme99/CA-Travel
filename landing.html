@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Going Places — Travel Blog | MK Travel</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Lato', sans-serif;
+    background: #fff;
+    color: #333;
+    font-size: 15px;
+  }
+
+  /* ─── NAVIGATION ─── */
+  .nav-wrapper {
+    background: #fff;
+    border-bottom: 1px solid #e8e8e8;
+    position: sticky;
+    top: 0;
+    z-index: 200;
+  }
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 32px;
+    height: 56px;
+  }
+  .nav-left {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .nav-search {
+    font-size: 1rem;
+    color: #555;
+    cursor: pointer;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+  }
+  .nav-links {
+    display: flex;
+    list-style: none;
+    gap: 0;
+  }
+  .nav-links li a {
+    display: block;
+    padding: 0 16px;
+    font-family: 'Lato', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    color: #333;
+    text-decoration: none;
+    letter-spacing: 0.3px;
+    line-height: 56px;
+    transition: color 0.2s;
+  }
+  .nav-links li a:hover,
+  .nav-links li a.active { color: #b07a8a; }
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .nav-right a {
+    display: flex;
+    align-items: center;
+    color: #555;
+    font-size: 14px;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-right a:hover { color: #b07a8a; }
+  /* Simple SVG icons inline */
+  .icon-fb::before  { content: "f"; font-family: serif; font-weight: 700; font-size: 15px; }
+  .icon-ig::before  { content: "◎"; font-size: 14px; }
+  .icon-pin::before { content: "⊕"; font-size: 14px; }
+  .icon-tw::before  { content: "✕"; font-size: 12px; }
+
+  /* ─── HERO TEXT BLOCK ─── */
+  .hero-text {
+    text-align: center;
+    padding: 52px 20px 44px;
+    background: #fff;
+  }
+  .hero-text h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    font-weight: 400;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: #222;
+    margin-bottom: 12px;
+  }
+  .hero-text .tagline {
+    font-family: 'Lato', sans-serif;
+    color: #2a6fbd;
+    font-size: 18px;
+    color: #666;
+    font-weight: 300;
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+  }
+  .hero-text .blog-label {
+    font-family: 'Lato', sans-serif;
+    font-size: 12px;
+    color: #999;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  /* ─── HERO IMAGE ─── */
+  .hero-image {
+    width: 100%;
+    max-height: 520px;
+    overflow: hidden;
+    line-height: 0;
+  }
+  .hero-image img {
+    width: 100%;
+    height: 520px;
+    object-fit: cover;
+    object-position: center 60%;
+    display: block;
+  }
+
+  /* ─── MIDDLE INTRO TEXT ─── */
+  .intro-text {
+    text-align: center;
+    padding: 52px 20px 36px;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  .intro-text p {
+    font-family: 'Lato', sans-serif;
+    font-size: 14px;
+    color: #555;
+    line-height: 1.8;
+    font-weight: 300;
+  }
+
+  /* ─── THREE CATEGORY IMAGES ─── */
+  .category-strip {
+    display: flex;
+    gap: 0;
+    padding: 0 32px;
+    max-width: 1100px;
+    margin: 0 auto 48px;
+    gap: 16px;
+  }
+  .cat-item {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    border-radius: 2px;
+  }
+  .cat-item img {
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+  }
+  .cat-item:hover img { transform: scale(1.04); }
+
+  /* Category label pill */
+  .cat-label {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #c9849a;
+    color: #fff;
+    font-family: 'Lato', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 1.5px;
+    padding: 7px 22px;
+    border-radius: 20px;
+    white-space: nowrap;
+    text-decoration: none;
+    transition: background 0.2s;
+    display: block;
+  }
+  .cat-label:hover { background: #b06a84; }
+
+  /* Wine — bottom center */
+  .cat-item.wine .cat-label  { bottom: 18px; }
+  /* Golf — top center */
+  .cat-item.golf .cat-label  { top: 18px; transform: translateX(-50%); background: #e8c8a8; color: #333; }
+  .cat-item.golf .cat-label:hover { background: #d4a882; color: #222; }
+  /* SF   — bottom center */
+  .cat-item.sf   .cat-label  { bottom: 18px; }
+
+  /* ─── AS FEATURED IN ─── */
+  .featured-bar {
+    border-top: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
+    padding: 28px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 48px;
+    margin-bottom: 0;
+    flex-wrap: wrap;
+  }
+  .featured-label {
+    font-family: 'Lato', sans-serif;
+    font-size: 12px;
+    color: #999;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .featured-divider {
+    width: 1px;
+    height: 28px;
+    background: #ddd;
+  }
+  .featured-logos {
+    display: flex;
+    align-items: center;
+    gap: 44px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .f-logo {
+    font-family: 'Lato', sans-serif;
+    color: #444;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .f-logo-travel {
+    font-size: 14px;
+    font-weight: 700;
+    font-style: italic;
+    line-height: 1.1;
+  }
+  .f-logo-travel span { display: block; }
+  .f-logo-planetour {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .f-logo-planetour::before { content: "✦ "; font-size: 10px; }
+  .f-logo-world {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    line-height: 1.2;
+  }
+  .f-logo-mk {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+  .f-logo-mk::after { content: " ✦"; font-size: 10px; }
+
+  /* ─── BLOG POSTS (recent) ─── */
+  .recent-posts {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 56px 32px 48px;
+  }
+  .recent-posts .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 400;
+    color: #222;
+    text-align: center;
+    margin-bottom: 36px;
+    letter-spacing: 1px;
+  }
+  .posts-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+  }
+  .post-card { text-decoration: none; color: inherit; }
+  .post-img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+    margin-bottom: 16px;
+  }
+  .post-tag {
+    font-family: 'Lato', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #c9849a;
+    margin-bottom: 8px;
+  }
+  .post-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: #222;
+    margin-bottom: 8px;
+    line-height: 1.4;
+  }
+  .post-card p {
+    font-family: 'Lato', sans-serif;
+    font-size: 13px;
+    color: #888;
+    line-height: 1.7;
+    font-weight: 300;
+  }
+  .post-meta {
+    margin-top: 10px;
+    font-family: 'Lato', sans-serif;
+    font-size: 12px;
+    color: #bbb;
+  }
+
+  /* ─── INSTAGRAM STYLE PHOTO GRID ─── */
+  .photo-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0;
+    margin-bottom: 0;
+  }
+  .photo-grid img {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    display: block;
+    filter: brightness(0.92);
+    transition: filter 0.2s;
+  }
+  .photo-grid img:hover { filter: brightness(1); }
+
+  /* ─── BOTTOM GRAY SECTION ─── */
+  .bottom-section {
+    background: #888;
+    padding: 52px 32px 44px;
+  }
+  .bottom-inner {
+    max-width: 860px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  /* About Me */
+  .about-me {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .about-me-row {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+  }
+  .about-photo {
+    width: 200px;
+    height: 154px;
+    object-fit: cover;
+    object-position: center 20%;
+    flex-shrink: 0;
+    display: block;
+    border-radius: 2px;
+  }
+  .about-text-block h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    font-weight: 400;
+    color: #fff;
+    margin-bottom: 10px;
+    letter-spacing: 0.5px;
+  }
+  .about-text-block p {
+    font-family: 'Lato', sans-serif;
+    font-size: 13px;
+    color: rgba(255,255,255,0.85);
+    line-height: 1.75;
+    font-weight: 300;
+  }
+  .read-more {
+    display: inline-block;
+    margin-top: 14px;
+    font-family: 'Lato', sans-serif;
+    font-size: 13px;
+    color: #fff;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .read-more:hover { color: #f5c6d4; }
+
+  /* Newsletter */
+  .newsletter h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    font-weight: 400;
+    color: #fff;
+    margin-bottom: 20px;
+    letter-spacing: 0.5px;
+  }
+  .form-group { margin-bottom: 14px; }
+  .form-label {
+    display: block;
+    font-family: 'Lato', sans-serif;
+    font-size: 12px;
+    color: rgba(255,255,255,0.9);
+    margin-bottom: 5px;
+    font-weight: 400;
+  }
+  .form-label .req { color: #f5c6d4; }
+  .form-input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid rgba(255,255,255,0.4);
+    background: rgba(255,255,255,0.12);
+    color: #fff;
+    font-family: 'Lato', sans-serif;
+    font-size: 13px;
+    outline: none;
+    border-radius: 1px;
+    transition: border-color 0.2s;
+  }
+  .form-input::placeholder { color: rgba(255,255,255,0.4); }
+  .form-input:focus { border-color: rgba(255,255,255,0.8); }
+  .checkbox-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+  .checkbox-row input[type="checkbox"] {
+    margin-top: 2px;
+    accent-color: #c9849a;
+    flex-shrink: 0;
+  }
+  .checkbox-row label {
+    font-family: 'Lato', sans-serif;
+    font-size: 12px;
+    color: rgba(255,255,255,0.85);
+    line-height: 1.5;
+  }
+  .checkbox-row label .req { color: #f5c6d4; }
+  .btn-subscribe {
+    width: 100%;
+    padding: 12px;
+    background: #4a90d9;
+    color: #fff;
+    border: none;
+    font-family: 'Lato', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: background 0.2s;
+  }
+  .btn-subscribe:hover { background: #3a7bc8; }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: #fff;
+    border-top: 1px solid #e8e8e8;
+    padding: 28px 32px;
+    text-align: center;
+  }
+  footer .footer-site {
+    font-family: 'Lato', sans-serif;
+    font-size: 12px;
+    color: #999;
+    margin-bottom: 12px;
+  }
+  footer .footer-site a { color: #555; text-decoration: none; }
+  footer .footer-socials {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+  }
+  footer .footer-socials a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    color: #666;
+    font-size: 13px;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  footer .footer-socials a:hover { color: #c9849a; }
+  footer .footer-copy {
+    margin-top: 12px;
+    font-family: 'Lato', sans-serif;
+    font-size: 11px;
+    color: #bbb;
+  }
+  footer .footer-copy a { color: #aaa; }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .hero-text h1 { font-size: 2rem; letter-spacing: 4px; }
+    .category-strip { flex-direction: column; padding: 0 16px; }
+    .cat-item img { height: 220px; }
+    .bottom-inner { grid-template-columns: 1fr; gap: 40px; }
+    .posts-row { grid-template-columns: 1fr; }
+    .photo-grid { grid-template-columns: repeat(4, 1fr); }
+    .featured-bar { gap: 24px; }
+    .featured-logos { gap: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══ NAVIGATION ═══ -->
+<div class="nav-wrapper">
+  <nav>
+    <div class="nav-left">
+      <span class="nav-search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </span>
+      <ul class="nav-links">
+        <li><a href="landing.html" class="active">Home</a></li>
+        <li><a href="sf-blog.html">SF-Travel</a></li>
+        <li><a href="wine-blog.html">Wine</a></li>
+        <li><a href="golf-blog.html">Golf</a></li>
+        <li><a href="#">Cine-Journey_Wine</a></li>
+        <li><a href="#">Cine-Journey_Rock</a></li>
+        <li><a href="갤러리.html">갤러리</a></li>
+      </ul>
+    </div>
+    <div class="nav-right">
+      <a href="https://www.facebook.com/" title="Facebook">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+      </a>
+      <a href="https://instagram.com/" title="Instagram">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>
+      </a>
+      <a href="https://pinterest.com/" title="Pinterest">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.08 3.12 9.44 7.62 11.22-.1-.94-.2-2.38.04-3.4.22-.9 1.46-6.18 1.46-6.18s-.37-.75-.37-1.86c0-1.74 1.01-3.04 2.27-3.04 1.07 0 1.59.8 1.59 1.76 0 1.08-.69 2.69-1.04 4.18-.3 1.25.62 2.27 1.84 2.27 2.2 0 3.9-2.33 3.9-5.68 0-2.97-2.13-5.04-5.18-5.04-3.53 0-5.6 2.64-5.6 5.38 0 1.07.41 2.21.92 2.84.1.12.11.23.08.35-.09.38-.3 1.25-.34 1.43-.05.23-.18.28-.41.17C5.3 15.25 4 12.9 4 10.62 4 6.38 7.3 2.1 13.07 2.1c4.67 0 8.3 3.33 8.3 7.77 0 4.63-2.92 8.36-6.97 8.36-1.36 0-2.64-.71-3.08-1.54l-.84 3.13c-.3 1.17-1.12 2.63-1.67 3.52C10.06 23.92 11.02 24 12 24c6.63 0 12-5.37 12-12S18.63 0 12 0z"/></svg>
+      </a>
+      <a href="https://twitter.com/" title="Twitter">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </a>
+    </div>
+  </nav>
+</div>
+
+<!-- ═══ HERO TEXT BLOCK ═══ -->
+<div class="hero-text">
+  <h1>Going California</h1>
+  <p class="tagline">I haven't been everywhere, but it's on my list</p>
+</div>
+
+<!-- ═══ HERO IMAGE ═══ -->
+<div class="hero-image">
+  <img src="나파와이너리2.png" alt="Napa Valley Winery Aerial View">
+</div>
+
+<!-- ═══ INTRO TEXT ═══ -->
+<div class="intro-text">
+  <p>캘리포니아의 드넓게 펼쳐진 초록빛 포도밭과 태평양을 바라보는 골프 코스, 그리고 안개 속 금문교까지. 세상의 아름다운 곳들을 발로 걸으며 담은 여행 이야기를 나눕니다. 먹고, 마시고, 걷고, 느끼는 모든 순간이 여행입니다.</p>
+</div>
+
+<!-- ═══ THREE CATEGORY IMAGES ═══ -->
+<div class="category-strip">
+
+  <!-- WINE -->
+  <div class="cat-item wine">
+    <a href="wine-blog.html">
+      <img src="나파벨리.jpg" alt="Napa Valley Wine Country">
+      <span class="cat-label">Wine</span>
+    </a>
+  </div>
+
+  <!-- GOLF -->
+  <div class="cat-item golf">
+    <a href="golf-blog.html">
+      <img src="페블비치.jpg" alt="Pebble Beach Golf Course">
+      <span class="cat-label">Golf</span>
+    </a>
+  </div>
+
+  <!-- SAN FRANCISCO -->
+  <div class="cat-item sf">
+    <a href="sf-blog.html">
+      <img src="금문교.jpg" alt="Golden Gate Bridge San Francisco">
+      <span class="cat-label">샌프란시스코</span>
+    </a>
+  </div>
+
+</div>
+
+<!-- ═══ AS FEATURED IN ═══ -->
+<div class="featured-bar">
+  <span class="featured-label">As featured in</span>
+  <div class="featured-divider"></div>
+  <div class="featured-logos">
+    <a href="#" class="f-logo f-logo-travel">
+      <span>travel</span>
+      <span>blog</span>
+    </a>
+    <a href="#" class="f-logo f-logo-planetour">PLANETOUR</a>
+    <a href="#" class="f-logo f-logo-world">WORLD<br>TRAVEL</a>
+    <a href="#" class="f-logo f-logo-mk">MK travel</a>
+  </div>
+</div>
+
+<!-- ═══ RECENT BLOG POSTS ═══ -->
+<div class="recent-posts">
+  <h2 class="section-title">Latest Posts</h2>
+  <div class="posts-row">
+
+    <a href="wine-blog.html" class="post-card">
+      <img
+        class="post-img"
+        src="나파 와인.png"
+        alt="California Wineries"
+      >
+      <p class="post-tag">🍷 Wine</p>
+      <h3>Explore California's Top Wineries: A Wine Lover's Guide</h3>
+      <p>California is a paradise for wine enthusiasts, boasting a diverse range of wineries that cater to every palate. From the sun-drenched vineyards of Napa Valley to the hidden gems of Paso Robles…</p>
+      <p class="post-meta">문규 김 · 4분 읽기</p>
+    </a>
+
+    <a href="golf-blog.html" class="post-card">
+      <img
+        class="post-img"
+        src="페블비치 2.jpg"
+        alt="Pebble Beach Golf"
+      >
+      <p class="post-tag">⛳ Golf</p>
+      <h3>Experience Pebble Beach: Golfing in California's Paradise</h3>
+      <p>Pebble Beach is not just a golf course; it is a legendary destination that embodies the spirit of the game. Nestled along the stunning coastline of California, this iconic course offers breathtaking views…</p>
+      <p class="post-meta">문규 김 · 4분 읽기</p>
+    </a>
+
+  </div>
+</div>
+
+<!-- ═══ PHOTO GRID (Instagram style) ═══ -->
+<div class="photo-grid">
+  <img src="https://wixmp-19e700b7666f74a00729a0dd.wixmp.com/Instagram/Traveller_Blog/01.jpg" alt="" onerror="this.style.background='#ddd';this.style.aspectRatio='1'">
+  <img src="https://wixmp-19e700b7666f74a00729a0dd.wixmp.com/Instagram/Traveller_Blog/02.jpg" alt="" onerror="this.style.background='#ccc'">
+  <img src="https://wixmp-19e700b7666f74a00729a0dd.wixmp.com/Instagram/Traveller_Blog/03.jpg" alt="" onerror="this.style.background='#d5d5d5'">
+  <img src="https://wixmp-19e700b7666f74a00729a0dd.wixmp.com/Instagram/Traveller_Blog/04.jpg" alt="" onerror="this.style.background='#ccc'">
+  <img src="https://wixmp-19e700b7666f74a00729a0dd.wixmp.com/Instagram/Traveller_Blog/05.jpg" alt="" onerror="this.style.background='#d5d5d5'">
+  <img src="https://wixmp-19e700b7666f74a00729a0dd.wixmp.com/Instagram/Traveller_Blog/06.jpg" alt="" onerror="this.style.background='#ccc'">
+  <img src="https://wixmp-19e700b7666f74a00729a0dd.wixmp.com/Instagram/Traveller_Blog/07.jpg" alt="" onerror="this.style.background='#d5d5d5'">
+</div>
+
+<!-- ═══ BOTTOM: ABOUT + NEWSLETTER ═══ -->
+<div class="bottom-section">
+  <div class="bottom-inner">
+
+    <!-- About Me -->
+    <div class="about-me">
+      <div class="about-me-row">
+        <img src="traveler3.jpg" alt="About Me — 김문규" class="about-photo">
+        <div class="about-text-block">
+          <h3>About Me</h3>
+          <p>캘리포니아를 사랑하는 여행가 김문규 입니다.<br>와인과 골프, 도시 탐험을 즐기며 세상의 아름다운 순간들을 기록합니다.</p>
+          <a href="about.html" class="read-more">Read More</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Newsletter -->
+    <div class="newsletter">
+      <h3>Join My Mailing list</h3>
+      <form onsubmit="return false;">
+        <div class="form-group">
+          <label class="form-label">Email <span class="req">*</span></label>
+          <input type="email" class="form-input" placeholder="Enter your email here">
+        </div>
+        <div class="checkbox-row">
+          <input type="checkbox" id="subscribe-check">
+          <label for="subscribe-check">Yes, subscribe me to your newsletter. <span class="req">*</span></label>
+        </div>
+        <button type="submit" class="btn-subscribe">Subscribe Now</button>
+      </form>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <p class="footer-site">
+    <a href="landing.html">greeme99.wixsite.com/mkax</a>
+  </p>
+  <div class="footer-socials">
+    <a href="https://www.facebook.com/" title="Facebook">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+    </a>
+    <a href="https://instagram.com/" title="Instagram">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>
+    </a>
+    <a href="https://pinterest.com/" title="Pinterest">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.08 3.12 9.44 7.62 11.22-.1-.94-.2-2.38.04-3.4.22-.9 1.46-6.18 1.46-6.18s-.37-.75-.37-1.86c0-1.74 1.01-3.04 2.27-3.04 1.07 0 1.59.8 1.59 1.76 0 1.08-.69 2.69-1.04 4.18-.3 1.25.62 2.27 1.84 2.27 2.2 0 3.9-2.33 3.9-5.68 0-2.97-2.13-5.04-5.18-5.04-3.53 0-5.6 2.64-5.6 5.38 0 1.07.41 2.21.92 2.84.1.12.11.23.08.35-.09.38-.3 1.25-.34 1.43-.05.23-.18.28-.41.17C5.3 15.25 4 12.9 4 10.62 4 6.38 7.3 2.1 13.07 2.1c4.67 0 8.3 3.33 8.3 7.77 0 4.63-2.92 8.36-6.97 8.36-1.36 0-2.64-.71-3.08-1.54l-.84 3.13c-.3 1.17-1.12 2.63-1.67 3.52C10.06 23.92 11.02 24 12 24c6.63 0 12-5.37 12-12S18.63 0 12 0z"/></svg>
+    </a>
+    <a href="https://twitter.com/" title="Twitter">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+    </a>
+  </div>
+  <p class="footer-copy">© 2035 by Going Places. Powered and secured by <a href="https://wix.com">Wix</a></p>
+</footer>
+
+</body>
+</html>

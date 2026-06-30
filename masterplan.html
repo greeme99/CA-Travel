@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MK Travel Blog — 여행 블로그 확장 마스터플랜</title>
+<style>
+  :root {
+    --primary: #1a1a2e;
+    --accent: #c8a951;
+    --wine: #7B1D3D;
+    --golf: #2D6A4F;
+    --sf: #1B3F7A;
+    --text: #333;
+    --light-bg: #f8f6f2;
+    --border: #e0dbd0;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: #fff; color: var(--text); line-height: 1.7; }
+
+  /* HEADER */
+  header {
+    background: var(--primary);
+    color: #fff;
+    padding: 60px 40px 40px;
+    text-align: center;
+  }
+  header .badge {
+    display: inline-block;
+    background: var(--accent);
+    color: var(--primary);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    border-radius: 2px;
+    margin-bottom: 20px;
+  }
+  header h1 { font-size: 2.6rem; font-weight: 300; margin-bottom: 10px; letter-spacing: -0.5px; }
+  header h1 strong { font-weight: 800; color: var(--accent); }
+  header p { font-size: 1.1rem; opacity: 0.75; max-width: 600px; margin: 0 auto; }
+
+  /* LAYOUT */
+  .container { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+  section { padding: 56px 0; border-bottom: 1px solid var(--border); }
+  section:last-child { border-bottom: none; }
+
+  h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  h2 .num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px; height: 36px;
+    background: var(--primary);
+    color: var(--accent);
+    font-size: 14px;
+    font-weight: 900;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .section-desc { color: #666; margin-bottom: 28px; font-size: 0.95rem; }
+
+  /* CURRENT STATE */
+  .state-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .state-card {
+    background: var(--light-bg);
+    border-left: 4px solid var(--border);
+    padding: 16px 20px;
+    border-radius: 4px;
+  }
+  .state-card.good { border-left-color: #27ae60; }
+  .state-card.issue { border-left-color: #e74c3c; }
+  .state-card h4 { font-size: 0.8rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; }
+  .state-card.good h4 { color: #27ae60; }
+  .state-card.issue h4 { color: #e74c3c; }
+  .state-card ul { list-style: none; }
+  .state-card ul li { font-size: 0.9rem; padding: 3px 0; }
+  .state-card ul li::before { content: "→ "; opacity: 0.5; }
+
+  /* ARCHITECTURE */
+  .arch-box {
+    background: var(--primary);
+    border-radius: 12px;
+    padding: 32px;
+    color: #fff;
+  }
+  .arch-row { display: flex; align-items: center; justify-content: center; gap: 0; flex-wrap: wrap; }
+  .arch-node {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 8px;
+    padding: 12px 20px;
+    text-align: center;
+    font-size: 0.85rem;
+  }
+  .arch-node.root {
+    background: var(--accent);
+    color: var(--primary);
+    font-weight: 700;
+  }
+  .arch-arrow {
+    color: rgba(255,255,255,0.4);
+    font-size: 1.4rem;
+    padding: 0 12px;
+  }
+  .arch-nodes-row { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-top: 20px; }
+  .arch-node.wine { border-color: #c87a97; background: rgba(123,29,61,0.4); }
+  .arch-node.golf { border-color: #74b892; background: rgba(45,106,79,0.4); }
+  .arch-node.sf   { border-color: #7aa3d4; background: rgba(27,63,122,0.4); }
+  .arch-center { display: flex; justify-content: center; }
+
+  /* CATEGORY CARDS */
+  .cat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .cat-card {
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  .cat-header {
+    padding: 24px 20px 16px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .cat-header .icon { font-size: 2rem; }
+  .cat-header h3 { font-size: 1.1rem; font-weight: 700; }
+  .cat-header p { font-size: 0.78rem; opacity: 0.8; margin-top: 2px; }
+  .cat-body { padding: 16px 20px; background: var(--light-bg); }
+  .cat-body ul { list-style: none; }
+  .cat-body ul li { font-size: 0.85rem; padding: 5px 0; border-bottom: 1px solid var(--border); }
+  .cat-body ul li:last-child { border-bottom: none; }
+  .cat-body ul li::before { margin-right: 6px; }
+  .wine-card .cat-header { background: var(--wine); }
+  .golf-card .cat-header { background: var(--golf); }
+  .sf-card   .cat-header { background: var(--sf); }
+
+  /* ROADMAP TABLE */
+  .roadmap-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+  .roadmap-table th {
+    background: var(--primary);
+    color: var(--accent);
+    text-align: left;
+    padding: 12px 16px;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .roadmap-table td { padding: 12px 16px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  .roadmap-table tr:nth-child(even) td { background: var(--light-bg); }
+  .phase-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+  .phase-1 { background: #fdebd0; color: #c0392b; }
+  .phase-2 { background: #d5f5e3; color: #1e8449; }
+  .phase-3 { background: #d6eaf8; color: #1a5276; }
+
+  /* WIXGUIDE */
+  .steps { counter-reset: step; }
+  .step { display: flex; gap: 16px; margin-bottom: 20px; }
+  .step-num {
+    flex-shrink: 0;
+    width: 36px; height: 36px;
+    background: var(--accent);
+    color: var(--primary);
+    font-weight: 900;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%;
+    font-size: 0.85rem;
+  }
+  .step-content h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 4px; }
+  .step-content p { font-size: 0.85rem; color: #555; }
+  .step-content code {
+    background: var(--light-bg);
+    border: 1px solid var(--border);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: monospace;
+    font-size: 0.82rem;
+  }
+
+  /* DEPLOY OPTIONS */
+  .deploy-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .deploy-card {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+  }
+  .deploy-card .icon { font-size: 2rem; margin-bottom: 10px; }
+  .deploy-card h4 { font-size: 0.9rem; font-weight: 700; margin-bottom: 6px; }
+  .deploy-card p { font-size: 0.8rem; color: #666; }
+  .tag { display: inline-block; background: #e8f4ea; color: #27ae60; font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 10px; margin-top: 8px; }
+  .tag.paid { background: #fdebd0; color: #c0392b; }
+
+  /* FOOTER */
+  footer {
+    background: var(--primary);
+    color: rgba(255,255,255,0.6);
+    text-align: center;
+    padding: 32px;
+    font-size: 0.85rem;
+  }
+  footer strong { color: var(--accent); }
+
+  @media (max-width: 640px) {
+    .state-grid, .cat-grid, .deploy-grid { grid-template-columns: 1fr; }
+    header h1 { font-size: 1.8rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="badge">Master Plan 2026</div>
+  <h1>MK Travel Blog<br><strong>여행 블로그 확장 전략</strong></h1>
+  <p>greeme99.wixsite.com/mkax 랜딩페이지를 기반으로 3개 카테고리 블로그로 확장하는 전체 로드맵</p>
+</header>
+
+<div class="container">
+
+  <!-- 1. 현재 상태 진단 -->
+  <section>
+    <h2><span class="num">1</span> 현재 상태 진단</h2>
+    <p class="section-desc">mkax Wix 사이트의 강점과 보완 포인트</p>
+    <div class="state-grid">
+      <div class="state-card good">
+        <h4>✅ 강점 (Strengths)</h4>
+        <ul>
+          <li>3개 카테고리 이미지 섹션 기존 존재</li>
+          <li>블로그 포스트 2개 이미 게시됨</li>
+          <li>Instagram 피드 갤러리 연동</li>
+          <li>뉴스레터 구독 폼 구현</li>
+          <li>캘리포니아 테마 콘텐츠 방향성 명확</li>
+        </ul>
+      </div>
+      <div class="state-card issue">
+        <h4>⚠️ 보완 필요 (Issues)</h4>
+        <ul>
+          <li>서브 이미지 → 일반 페이지(travel/eat/relax) 링크 — 카테고리 분리 미흡</li>
+          <li>아이콘 없이 이미지만 사용 — 직관성 낮음</li>
+          <li>각 카테고리 전용 블로그 페이지 없음</li>
+          <li>소개 텍스트가 Wix 기본 placeholder</li>
+          <li>SNS 링크가 Wix 공식 계정으로 연결됨</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. 사이트 아키텍처 설계 -->
+  <section>
+    <h2><span class="num">2</span> 확장 아키텍처 설계</h2>
+    <p class="section-desc">랜딩 → 아이콘 카드 → 카테고리 블로그 3개로 이어지는 계층 구조</p>
+    <div class="arch-box">
+      <div class="arch-center">
+        <div class="arch-row">
+          <div class="arch-node root">🏠 Landing Page<br><small>greeme99.wixsite.com/mkax</small></div>
+        </div>
+      </div>
+      <div class="arch-center" style="margin-top:12px;">
+        <span style="color:rgba(255,255,255,0.4); font-size:1.5rem;">↓ 아이콘 카드 클릭</span>
+      </div>
+      <div class="arch-nodes-row">
+        <div class="arch-node wine">
+          🍷 와인 블로그<br>
+          <small>/travel 또는 외부 URL</small><br>
+          <small>나파밸리 · 소노마 · 파소로블레스</small>
+        </div>
+        <div class="arch-node golf">
+          ⛳ 골프 블로그<br>
+          <small>/eat 또는 외부 URL</small><br>
+          <small>페블비치 · 토리파인스 · 스파이글라스</small>
+        </div>
+        <div class="arch-node sf">
+          🌁 SF 블로그<br>
+          <small>/relax 또는 외부 URL</small><br>
+          <small>금문교 · 미션 · 차이나타운 · 베이지역</small>
+        </div>
+      </div>
+      <p style="text-align:center; font-size:0.8rem; opacity:0.5; margin-top:20px;">각 페이지는 독립 HTML 파일로 제작 → Netlify/Vercel 무료 배포 or Wix 블로그 포스트로 통합</p>
+    </div>
+  </section>
+
+  <!-- 3. 카테고리별 콘텐츠 전략 -->
+  <section>
+    <h2><span class="num">3</span> 카테고리별 콘텐츠 전략</h2>
+    <p class="section-desc">각 블로그의 주제, 타깃 독자, 핵심 콘텐츠 방향</p>
+    <div class="cat-grid">
+      <div class="cat-card wine-card">
+        <div class="cat-header">
+          <div>
+            <div class="icon">🍷</div>
+          </div>
+          <div>
+            <h3>Wine Blog</h3>
+            <p>캘리포니아 와인 여행</p>
+          </div>
+        </div>
+        <div class="cat-body">
+          <ul>
+            <li>🗺️ 나파밸리 지역 가이드</li>
+            <li>🏡 추천 와이너리 TOP 10</li>
+            <li>🍾 와인 테이스팅 팁</li>
+            <li>🚗 드라이브 루트 추천</li>
+            <li>🛏️ 숙소 & 레스토랑</li>
+            <li>📅 시즌별 방문 가이드</li>
+          </ul>
+        </div>
+      </div>
+      <div class="cat-card golf-card">
+        <div class="cat-header">
+          <div>
+            <div class="icon">⛳</div>
+          </div>
+          <div>
+            <h3>Golf Blog</h3>
+            <p>캘리포니아 골프 여행</p>
+          </div>
+        </div>
+        <div class="cat-body">
+          <ul>
+            <li>⛳ 페블비치 코스 리뷰</li>
+            <li>🌊 해안 코스 TOP 5</li>
+            <li>💰 그린피 & 예약 방법</li>
+            <li>🏌️ 초보자 vs 상급자 코스</li>
+            <li>🧳 골프 여행 패키지</li>
+            <li>☀️ 최적 방문 시즌</li>
+          </ul>
+        </div>
+      </div>
+      <div class="cat-card sf-card">
+        <div class="cat-header">
+          <div>
+            <div class="icon">🌁</div>
+          </div>
+          <div>
+            <h3>SF Blog</h3>
+            <p>샌프란시스코 여행</p>
+          </div>
+        </div>
+        <div class="cat-body">
+          <ul>
+            <li>🌉 금문교 포토 스팟</li>
+            <li>🏘️ 동네별 여행 가이드</li>
+            <li>🦀 피셔맨스 워프 맛집</li>
+            <li>🚃 케이블카 & 교통 팁</li>
+            <li>🍜 다양한 음식 문화</li>
+            <li>🚗 베이지역 당일치기</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. 구현 로드맵 -->
+  <section>
+    <h2><span class="num">4</span> 구현 로드맵</h2>
+    <p class="section-desc">3단계 순차 실행 계획 — 지금 바로 시작 가능</p>
+    <table class="roadmap-table">
+      <thead>
+        <tr>
+          <th>Phase</th>
+          <th>작업 내용</th>
+          <th>기간</th>
+          <th>방법</th>
+          <th>결과물</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="phase-badge phase-1">Phase 1</span><br>즉시 실행</td>
+          <td>3개 블로그 HTML 페이지 제작 + 랜딩 아이콘 섹션 업그레이드</td>
+          <td>1일</td>
+          <td>Claude Cowork → HTML 파일 생성 → Netlify 배포</td>
+          <td>wine-blog.html, golf-blog.html, sf-blog.html, landing.html</td>
+        </tr>
+        <tr>
+          <td><span class="phase-badge phase-2">Phase 2</span><br>Wix 통합</td>
+          <td>Wix 블로그에 카테고리 태그 설정 → 랜딩 이미지 아이콘 오버레이 추가</td>
+          <td>2–3일</td>
+          <td>Wix Editor → Blog App → Category Pages</td>
+          <td>Wix 블로그 카테고리 페이지 3개</td>
+        </tr>
+        <tr>
+          <td><span class="phase-badge phase-3">Phase 3</span><br>콘텐츠 확장</td>
+          <td>각 카테고리 포스트 3개씩 추가 작성 (총 9개) + SEO 최적화</td>
+          <td>1–2주</td>
+          <td>Claude로 콘텐츠 초안 생성 → Wix 블로그 에디터 업로드</td>
+          <td>SEO 최적화된 블로그 포스트 9개</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 5. Wix 적용 가이드 -->
+  <section>
+    <h2><span class="num">5</span> Wix 적용 단계별 가이드</h2>
+    <p class="section-desc">Wix 에디터에서 직접 적용하는 방법 — 코딩 불필요</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h4>랜딩 이미지 카드에 아이콘 오버레이 추가</h4>
+          <p>Wix Editor에서 3개 이미지(나파밸리, 페블비치, 금문교)를 클릭 → <code>Add Element → Icon</code> 선택 → 이미지 위에 배치 → 투명도 조절로 아이콘+이미지 병행 표시</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h4>Wix 블로그 카테고리 설정</h4>
+          <p>Wix Dashboard → <code>Blog → Categories</code> → "Wine", "Golf", "San Francisco" 3개 카테고리 생성 → 기존 포스트에 태그 적용 (Pebble Beach → Golf, Wineries → Wine)</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h4>카테고리 페이지 링크 연결</h4>
+          <p>랜딩의 3개 이미지 카드 각각 → <code>우클릭 → Link → Web address</code> → 제작한 블로그 HTML URL 또는 Wix 카테고리 URL로 연결</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <h4>독립 HTML 페이지를 Netlify로 배포 (선택)</h4>
+          <p><code>netlify.com</code> → "Add new site" → "Deploy manually" → 제작한 HTML 폴더 드래그앤드롭 → 무료 URL 생성 → Wix 랜딩에서 해당 URL로 링크</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <h4>Google Search Console 등록 (Phase 3)</h4>
+          <p>Wix Dashboard → <code>Marketing & SEO → Google Search Console</code> → 사이트 소유권 확인 → 사이트맵 제출 → 블로그 포스트 검색 노출 시작</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. 배포 옵션 -->
+  <section>
+    <h2><span class="num">6</span> 배포 옵션 비교</h2>
+    <p class="section-desc">HTML 블로그 페이지를 어디에 올릴 것인가</p>
+    <div class="deploy-grid">
+      <div class="deploy-card">
+        <div class="icon">🟢</div>
+        <h4>Netlify (추천)</h4>
+        <p>HTML 폴더 드래그앤드롭으로 즉시 배포. 무료 SSL, 빠른 CDN. netlify.app 서브도메인 제공</p>
+        <span class="tag">무료</span>
+      </div>
+      <div class="deploy-card">
+        <div class="icon">⚡</div>
+        <h4>Vercel</h4>
+        <p>GitHub 연동으로 자동 배포. vercel.app 도메인. 개발자 친화적이나 간단한 HTML에도 충분</p>
+        <span class="tag">무료</span>
+      </div>
+      <div class="deploy-card">
+        <div class="icon">🔵</div>
+        <h4>Wix 블로그 통합</h4>
+        <p>Wix 블로그 포스트 형식으로 콘텐츠 입력. 기존 사이트와 완벽 통합. 커스텀 코드 제한 있음</p>
+        <span class="tag paid">Wix 플랜 필요</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. 제작 파일 목록 -->
+  <section>
+    <h2><span class="num">7</span> 이번 세션 제작 파일</h2>
+    <p class="section-desc">Claude가 생성한 파일 — 바로 사용 가능한 완성된 HTML</p>
+    <table class="roadmap-table">
+      <thead>
+        <tr><th>파일명</th><th>내용</th><th>링크 대상</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>masterplan.html</code></td>
+          <td>현재 문서 — 전략 마스터플랜</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td><code>landing.html</code></td>
+          <td>아이콘 카드 섹션이 업그레이드된 랜딩페이지</td>
+          <td>3개 블로그로 링크</td>
+        </tr>
+        <tr>
+          <td><code>wine-blog.html</code></td>
+          <td>캘리포니아 와인 여행 블로그 (나파밸리, 소노마, 파소로블레스)</td>
+          <td>landing.html 🍷 카드</td>
+        </tr>
+        <tr>
+          <td><code>golf-blog.html</code></td>
+          <td>캘리포니아 골프 여행 블로그 (페블비치, 토리파인스 등)</td>
+          <td>landing.html ⛳ 카드</td>
+        </tr>
+        <tr>
+          <td><code>sf-blog.html</code></td>
+          <td>샌프란시스코 여행 블로그 (금문교, 동네, 맛집, 교통)</td>
+          <td>landing.html 🌁 카드</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+</div>
+
+<footer>
+  <strong>MK Travel Blog</strong> — 여행 블로그 확장 마스터플랜 · 2026<br>
+  <small>greeme99.wixsite.com/mkax · Powered by Claude Cowork</small>
+</footer>
+
+</body>
+</html>

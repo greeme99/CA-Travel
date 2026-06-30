@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wine Blog — 캘리포니아 와인 여행 | MK Travel</title>
+<meta name="description" content="나파밸리, 소노마, 파소 로블레스 — 캘리포니아 와인 컨트리 완전 가이드">
+<style>
+  :root {
+    --primary: #1a1a2e;
+    --wine: #7B1D3D;
+    --wine-light: #c0395a;
+    --wine-pale: #fce4ec;
+    --accent: #c8a951;
+    --text: #2c2c2c;
+    --light-bg: #fdf8f9;
+    --border: #e8d8dc;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Georgia', serif; background: #fff; color: var(--text); }
+
+  /* NAV */
+  .nav-wrapper {
+    background: #fff;
+    border-bottom: 1px solid #e8e8e8;
+    position: sticky;
+    top: 0;
+    z-index: 200;
+  }
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 32px;
+    height: 56px;
+  }
+  .nav-left {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .nav-search {
+    font-size: 1rem;
+    color: #555;
+    cursor: pointer;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+  }
+  .nav-links {
+    display: flex;
+    list-style: none;
+    gap: 0;
+  }
+  .nav-links li a {
+    display: block;
+    padding: 0 16px;
+    font-family: 'Lato', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    color: #333;
+    text-decoration: none;
+    letter-spacing: 0.3px;
+    line-height: 56px;
+    transition: color 0.2s;
+  }
+  .nav-links li a:hover,
+  .nav-links li a.active { color: #b07a8a; }
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .nav-right a {
+    display: flex;
+    align-items: center;
+    color: #555;
+    font-size: 14px;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-right a:hover { color: #b07a8a; }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, #2c0a18 0%, var(--wine) 60%, #c0395a 100%);
+    color: #fff;
+    padding: 90px 40px 70px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: url('https://static.wixstatic.com/media/98e43a_4fe51ac8c91c4c5ca604d745a699501c~mv2.jpg') center/cover;
+    opacity: 0.15;
+  }
+  .hero-content { position: relative; z-index: 1; }
+  .hero-icon { font-size: 4rem; margin-bottom: 16px; filter: drop-shadow(0 2px 12px rgba(0,0,0,0.4)); }
+  .hero-tag {
+    display: inline-block;
+    border: 1px solid rgba(200,169,81,0.6);
+    color: var(--accent);
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 0.7rem; letter-spacing: 4px; text-transform: uppercase;
+    padding: 5px 16px; margin-bottom: 20px;
+  }
+  .hero h1 { font-size: 2.8rem; font-weight: 400; line-height: 1.2; margin-bottom: 14px; }
+  .hero h1 em { font-style: italic; color: var(--accent); }
+  .hero p { font-family: 'Segoe UI', sans-serif; font-size: 1rem; opacity: 0.75; max-width: 500px; margin: 0 auto; }
+
+  /* INTRO */
+  .intro {
+    max-width: 760px; margin: 0 auto;
+    padding: 60px 40px 40px;
+    text-align: center;
+  }
+  .intro .eyebrow { font-family: 'Segoe UI', sans-serif; font-size: 0.72rem; letter-spacing: 4px; text-transform: uppercase; color: var(--wine); margin-bottom: 12px; }
+  .intro h2 { font-size: 1.8rem; font-weight: 400; color: var(--primary); margin-bottom: 16px; }
+  .intro p { font-family: 'Segoe UI', sans-serif; font-size: 0.97rem; color: #666; line-height: 1.8; }
+
+  /* REGIONS */
+  .regions { padding: 20px 40px 80px; max-width: 960px; margin: 0 auto; }
+  .region-card {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 0; margin-bottom: 56px;
+    border-radius: 16px; overflow: hidden;
+    box-shadow: 0 6px 28px rgba(0,0,0,0.09);
+  }
+  .region-card.reverse { direction: rtl; }
+  .region-card.reverse > * { direction: ltr; }
+  .region-img {
+    height: 320px;
+    background-size: cover; background-position: center;
+    position: relative;
+  }
+  .region-img .region-label {
+    position: absolute; bottom: 20px; left: 20px;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 0.72rem; letter-spacing: 2px;
+    text-transform: uppercase; padding: 5px 12px;
+    border-radius: 20px; backdrop-filter: blur(4px);
+  }
+  .region-content {
+    background: #fff; padding: 36px 40px;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .region-num { font-family: 'Segoe UI', sans-serif; font-size: 0.7rem; letter-spacing: 3px; text-transform: uppercase; color: var(--wine); margin-bottom: 8px; }
+  .region-content h3 { font-size: 1.5rem; font-weight: 600; color: var(--primary); margin-bottom: 12px; }
+  .region-content p { font-family: 'Segoe UI', sans-serif; font-size: 0.9rem; color: #666; line-height: 1.8; margin-bottom: 20px; }
+  .highlights {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+  }
+  .highlight {
+    background: var(--light-bg);
+    border-left: 3px solid var(--wine);
+    padding: 10px 14px;
+    border-radius: 4px;
+  }
+  .highlight h4 { font-family: 'Segoe UI', sans-serif; font-size: 0.78rem; font-weight: 700; color: var(--wine); margin-bottom: 2px; }
+  .highlight p { font-size: 0.78rem; color: #777; }
+
+  /* WINERY PICKS */
+  .winery-section { background: var(--light-bg); padding: 72px 40px; }
+  .winery-section .section-header { text-align: center; margin-bottom: 48px; }
+  .winery-section .eyebrow { font-family: 'Segoe UI', sans-serif; font-size: 0.7rem; letter-spacing: 4px; text-transform: uppercase; color: var(--wine); margin-bottom: 10px; }
+  .winery-section h2 { font-size: 1.8rem; font-weight: 400; color: var(--primary); }
+  .winery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 960px; margin: 0 auto; }
+  .winery-card {
+    background: #fff; border-radius: 12px;
+    overflow: hidden; border: 1px solid var(--border);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .winery-card:hover { transform: translateY(-4px); box-shadow: 0 12px 28px rgba(0,0,0,0.1); }
+  .winery-badge {
+    background: var(--wine);
+    color: #fff; padding: 20px 24px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .winery-badge .rank { font-size: 1.8rem; font-weight: 900; opacity: 0.5; }
+  .winery-badge h4 { font-size: 0.95rem; font-weight: 700; }
+  .winery-badge p { font-size: 0.75rem; opacity: 0.8; margin-top: 2px; }
+  .winery-body { padding: 18px 20px; }
+  .winery-body p { font-family: 'Segoe UI', sans-serif; font-size: 0.84rem; color: #666; line-height: 1.7; }
+  .winery-tags { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 6px; }
+  .wtag {
+    background: var(--wine-pale); color: var(--wine);
+    font-family: 'Segoe UI', sans-serif; font-size: 0.7rem; font-weight: 700;
+    padding: 3px 10px; border-radius: 20px;
+  }
+
+  /* TIPS */
+  .tips-section { padding: 72px 40px; max-width: 800px; margin: 0 auto; }
+  .tips-section .section-header { text-align: center; margin-bottom: 40px; }
+  .tips-section .eyebrow { font-family: 'Segoe UI', sans-serif; font-size: 0.7rem; letter-spacing: 4px; text-transform: uppercase; color: var(--wine); margin-bottom: 10px; }
+  .tips-section h2 { font-size: 1.8rem; font-weight: 400; color: var(--primary); }
+  .tips-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .tip-card {
+    border: 1px solid var(--border); border-radius: 12px; padding: 24px;
+    display: flex; gap: 16px;
+  }
+  .tip-icon { font-size: 2rem; flex-shrink: 0; }
+  .tip-card h4 { font-family: 'Segoe UI', sans-serif; font-size: 0.9rem; font-weight: 700; color: var(--primary); margin-bottom: 6px; }
+  .tip-card p { font-family: 'Segoe UI', sans-serif; font-size: 0.82rem; color: #777; line-height: 1.7; }
+
+  /* SEASON TABLE */
+  .season-section { background: var(--primary); color: #fff; padding: 60px 40px; }
+  .season-section .section-header { text-align: center; margin-bottom: 36px; }
+  .season-section h2 { font-size: 1.6rem; font-weight: 400; color: #fff; }
+  .season-section .eyebrow { font-family: 'Segoe UI', sans-serif; font-size: 0.7rem; letter-spacing: 3px; color: var(--accent); text-transform: uppercase; margin-bottom: 10px; }
+  .season-table { width: 100%; max-width: 700px; margin: 0 auto; border-collapse: collapse; font-family: 'Segoe UI', sans-serif; }
+  .season-table th { color: var(--accent); text-align: left; padding: 12px 16px; font-size: 0.78rem; letter-spacing: 1px; text-transform: uppercase; border-bottom: 1px solid rgba(255,255,255,0.15); }
+  .season-table td { padding: 12px 16px; font-size: 0.85rem; border-bottom: 1px solid rgba(255,255,255,0.08); color: rgba(255,255,255,0.8); }
+  .season-table tr:last-child td { border-bottom: none; }
+  .s-badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 0.72rem; font-weight: 700; }
+  .s-peak { background: rgba(200,169,81,0.25); color: var(--accent); }
+  .s-good { background: rgba(82,183,136,0.25); color: #52b788; }
+  .s-ok   { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.6); }
+
+  /* CTA */
+  .cta-bar {
+    background: var(--wine);
+    color: #fff; text-align: center; padding: 56px 40px;
+  }
+  .cta-bar h2 { font-size: 1.8rem; font-weight: 400; margin-bottom: 10px; }
+  .cta-bar p { font-family: 'Segoe UI', sans-serif; font-size: 0.9rem; opacity: 0.8; margin-bottom: 28px; }
+  .cta-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--accent); color: var(--primary);
+    padding: 14px 32px; text-decoration: none;
+    font-family: 'Segoe UI', sans-serif; font-size: 0.82rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+    border-radius: 4px; transition: transform 0.2s;
+  }
+  .btn-primary:hover { transform: translateY(-2px); }
+  .btn-outline {
+    border: 1px solid rgba(255,255,255,0.5); color: #fff;
+    padding: 14px 32px; text-decoration: none;
+    font-family: 'Segoe UI', sans-serif; font-size: 0.82rem; letter-spacing: 1.5px; text-transform: uppercase;
+    border-radius: 4px; transition: border-color 0.2s;
+  }
+  .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* FOOTER */
+  footer { background: var(--primary); color: rgba(255,255,255,0.5); text-align: center; padding: 32px; font-family: 'Segoe UI', sans-serif; font-size: 0.82rem; }
+  footer strong { color: var(--accent); }
+  footer .other-blogs { display: flex; justify-content: center; gap: 24px; margin-top: 16px; }
+  footer .other-blogs a { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.85rem; }
+  footer .other-blogs a:hover { color: var(--accent); }
+
+  @media (max-width: 680px) {
+    .region-card { grid-template-columns: 1fr; }
+    .region-card.reverse { direction: ltr; }
+    .region-img { height: 220px; }
+    .winery-grid, .tips-grid { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 2rem; }
+    .nav-links { display: none; }
+    .highlights { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<div class="nav-wrapper">
+  <nav>
+    <div class="nav-left">
+      <span class="nav-search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </span>
+      <ul class="nav-links">
+        <li><a href="landing.html">Home</a></li>
+        <li><a href="sf-blog.html">SF-Travel</a></li>
+        <li><a href="wine-blog.html" class="active">Wine</a></li>
+        <li><a href="golf-blog.html">Golf</a></li>
+        <li><a href="#">Cine-Journey_Wine</a></li>
+        <li><a href="#">Cine-Journey_Rock</a></li>
+        <li><a href="갤러리.html">갤러리</a></li>
+      </ul>
+    </div>
+    <div class="nav-right">
+      <a href="https://www.facebook.com/" title="Facebook">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+      </a>
+      <a href="https://instagram.com/" title="Instagram">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>
+      </a>
+      <a href="https://pinterest.com/" title="Pinterest">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.08 3.12 9.44 7.62 11.22-.1-.94-.2-2.38.04-3.4.22-.9 1.46-6.18 1.46-6.18s-.37-.75-.37-1.86c0-1.74 1.01-3.04 2.27-3.04 1.07 0 1.59.8 1.59 1.76 0 1.08-.69 2.69-1.04 4.18-.3 1.25.62 2.27 1.84 2.27 2.2 0 3.9-2.33 3.9-5.68 0-2.97-2.13-5.04-5.18-5.04-3.53 0-5.6 2.64-5.6 5.38 0 1.07.41 2.21.92 2.84.1.12.11.23.08.35-.09.38-.3 1.25-.34 1.43-.05.23-.18.28-.41.17C5.3 15.25 4 12.9 4 10.62 4 6.38 7.3 2.1 13.07 2.1c4.67 0 8.3 3.33 8.3 7.77 0 4.63-2.92 8.36-6.97 8.36-1.36 0-2.64-.71-3.08-1.54l-.84 3.13c-.3 1.17-1.12 2.63-1.67 3.52C10.06 23.92 11.02 24 12 24c6.63 0 12-5.37 12-12S18.63 0 12 0z"/></svg>
+      </a>
+      <a href="https://twitter.com/" title="Twitter">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </a>
+    </div>
+  </nav>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-icon">🍷</div>
+    <div class="hero-tag">California Wine Country</div>
+    <h1>와인 한 잔에 담긴<br><em>캘리포니아</em></h1>
+    <p>나파밸리에서 소노마까지 — 세계 최고 와인 산지를 직접 발로 누빈 여행기</p>
+  </div>
+</section>
+
+<!-- INTRO -->
+<div class="intro">
+  <p class="eyebrow">Wine Travel Guide</p>
+  <h2>캘리포니아 와인 컨트리 소개</h2>
+  <p>캘리포니아는 세계 4위의 와인 생산지입니다. 연간 300일 이상의 햇살과 태평양의 서늘한 안개가 만나는 이곳에서 피노 누아, 카베르네 소비뇽, 샤르도네 등 세계 수준의 와인이 탄생합니다. 나파밸리의 우아한 빅 레드부터 소노마의 섬세한 피노 누아, 파소 로블레스의 풀바디 진판델까지 — 캘리포니아 와인의 다양성을 함께 탐험해봅시다.</p>
+</div>
+
+<!-- REGION 1: NAPA VALLEY -->
+<div class="regions">
+  <div class="region-card">
+    <div class="region-img" style="background-image: url('https://static.wixstatic.com/media/98e43a_4fe51ac8c91c4c5ca604d745a699501c~mv2.jpg');">
+      <span class="region-label">📍 Napa, California</span>
+    </div>
+    <div class="region-content">
+      <p class="region-num">Region 01</p>
+      <h3>나파밸리 (Napa Valley)</h3>
+      <p>세계에서 가장 유명한 와인 산지 중 하나. 29번 하이웨이를 따라 늘어선 와이너리들 사이에서 최고급 카베르네 소비뇽을 만나보세요. 오퍼스 원, 로버트 몬다비, 도미누스 등 전설적인 레이블이 이곳에 있습니다.</p>
+      <div class="highlights">
+        <div class="highlight">
+          <h4>🍇 주요 품종</h4>
+          <p>Cabernet Sauvignon, Merlot, Chardonnay</p>
+        </div>
+        <div class="highlight">
+          <h4>🏡 머스트 비짓</h4>
+          <p>Opus One, Robert Mondavi, Stag's Leap</p>
+        </div>
+        <div class="highlight">
+          <h4>🚗 이동</h4>
+          <p>SF에서 1시간 30분, US-101 북쪽</p>
+        </div>
+        <div class="highlight">
+          <h4>💰 테이스팅 비용</h4>
+          <p>$30–$150 per tasting</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- REGION 2: SONOMA -->
+  <div class="region-card reverse">
+    <div class="region-img" style="position:relative; overflow:hidden; padding:0;">
+      <img src="Sonoma County.jpg" alt="Sonoma County 포도밭" style="width:100%; height:100%; object-fit:cover; object-position:center; display:block;">
+      <span class="region-label">📍 Sonoma, California</span>
+    </div>
+    <div class="region-content">
+      <p class="region-num">Region 02</p>
+      <h3>소노마 카운티 (Sonoma County)</h3>
+      <p>나파보다 더 넓고 다양한 소노마는 태평양 해안의 서늘한 기후 덕분에 피노 누아와 샤르도네가 특히 뛰어납니다. 히든 젬 와이너리를 탐험하는 재미가 있고, 나파보다 테이스팅 비용이 합리적인 편입니다.</p>
+      <div class="highlights">
+        <div class="highlight">
+          <h4>🍇 주요 품종</h4>
+          <p>Pinot Noir, Chardonnay, Zinfandel</p>
+        </div>
+        <div class="highlight">
+          <h4>🏡 머스트 비짓</h4>
+          <p>Jordan, Kistler, Gary Farrell</p>
+        </div>
+        <div class="highlight">
+          <h4>🌊 특별한 점</h4>
+          <p>Russian River Valley의 안개 기후</p>
+        </div>
+        <div class="highlight">
+          <h4>💰 테이스팅 비용</h4>
+          <p>$20–$60 per tasting</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- REGION 3: PASO ROBLES -->
+  <div class="region-card">
+    <div class="region-img" style="position:relative; overflow:hidden; padding:0;">
+      <img src="파소 로블스.jpg" alt="Paso Robles 와이너리" style="width:100%; height:100%; object-fit:cover; object-position:center; display:block;">
+      <span class="region-label">📍 Paso Robles, California</span>
+    </div>
+    <div class="region-content">
+      <p class="region-num">Region 03</p>
+      <h3>파소 로블레스 (Paso Robles)</h3>
+      <p>LA에서 3시간, SF에서 4시간 거리의 숨겨진 와인 산지. 뜨겁고 건조한 낮과 서늘한 밤이 만들어내는 강렬하고 풍성한 레드 와인이 특징입니다. 진판델, 론 품종, 시라가 최고 수준입니다.</p>
+      <div class="highlights">
+        <div class="highlight">
+          <h4>🍇 주요 품종</h4>
+          <p>Zinfandel, Syrah, Grenache, Viognier</p>
+        </div>
+        <div class="highlight">
+          <h4>🏡 머스트 비짓</h4>
+          <p>Justin, Tablas Creek, L'Aventure</p>
+        </div>
+        <div class="highlight">
+          <h4>🌡️ 기후 특징</h4>
+          <p>일교차 50°F — 낮에는 덥고 밤엔 서늘</p>
+        </div>
+        <div class="highlight">
+          <h4>💰 테이스팅 비용</h4>
+          <p>$15–$40 per tasting (가성비 최고)</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOP WINERIES -->
+<section class="winery-section">
+  <div class="section-header">
+    <p class="eyebrow">Editor's Pick</p>
+    <h2>꼭 가봐야 할 와이너리 TOP 6</h2>
+  </div>
+  <div class="winery-grid">
+    <div class="winery-card">
+      <div class="winery-badge">
+        <span class="rank">01</span>
+        <div>
+          <h4>Opus One</h4>
+          <p>Napa Valley · Oakville</p>
+        </div>
+      </div>
+      <div class="winery-body">
+        <p>로버트 몬다비와 바롱 필리프 드 로칠드의 합작으로 탄생한 전설. 카베르네 소비뇽 기반의 보르도 스타일 블렌드는 나파의 정수입니다.</p>
+        <div class="winery-tags">
+          <span class="wtag">Cabernet</span><span class="wtag">Bordeaux Blend</span><span class="wtag">★★★★★</span>
+        </div>
+      </div>
+    </div>
+    <div class="winery-card">
+      <div class="winery-badge">
+        <span class="rank">02</span>
+        <div>
+          <h4>Stag's Leap Wine Cellars</h4>
+          <p>Napa Valley · Yountville</p>
+        </div>
+      </div>
+      <div class="winery-body">
+        <p>1976년 파리 테이스팅에서 프랑스 그랑 크뤼를 꺾은 전설의 와이너리. 그 역사적인 Cask 23을 직접 맛볼 수 있습니다.</p>
+        <div class="winery-tags">
+          <span class="wtag">Historic</span><span class="wtag">Cabernet</span><span class="wtag">Must Visit</span>
+        </div>
+      </div>
+    </div>
+    <div class="winery-card">
+      <div class="winery-badge">
+        <span class="rank">03</span>
+        <div>
+          <h4>Jordan Winery</h4>
+          <p>Sonoma County · Healdsburg</p>
+        </div>
+      </div>
+      <div class="winery-body">
+        <p>아름다운 프렌치 샤토 스타일의 건물과 함께 탁월한 카베르네와 샤르도네를 선보입니다. 와이너리 투어와 런치 패키지가 특히 훌륭합니다.</p>
+        <div class="winery-tags">
+          <span class="wtag">Chardonnay</span><span class="wtag">Beautiful Estate</span><span class="wtag">★★★★★</span>
+        </div>
+      </div>
+    </div>
+    <div class="winery-card">
+      <div class="winery-badge">
+        <span class="rank">04</span>
+        <div>
+          <h4>Tablas Creek Vineyard</h4>
+          <p>Paso Robles</p>
+        </div>
+      </div>
+      <div class="winery-body">
+        <p>론 밸리에서 직접 가져온 품종들로 만드는 진정한 론 스타일 와인. 그르나슈, 무르베드르, 루산 등 희귀 품종을 경험할 수 있습니다.</p>
+        <div class="winery-tags">
+          <span class="wtag">Rhône Varieties</span><span class="wtag">Grenache</span><span class="wtag">Organic</span>
+        </div>
+      </div>
+    </div>
+    <div class="winery-card">
+      <div class="winery-badge">
+        <span class="rank">05</span>
+        <div>
+          <h4>Gary Farrell Vineyards</h4>
+          <p>Russian River Valley, Sonoma</p>
+        </div>
+      </div>
+      <div class="winery-body">
+        <p>러시안 리버 밸리의 서늘한 기후에서 탄생하는 세계 수준의 피노 누아. 힐사이드 뷰와 함께하는 테이스팅은 잊을 수 없는 경험입니다.</p>
+        <div class="winery-tags">
+          <span class="wtag">Pinot Noir</span><span class="wtag">Cool Climate</span><span class="wtag">★★★★★</span>
+        </div>
+      </div>
+    </div>
+    <div class="winery-card">
+      <div class="winery-badge">
+        <span class="rank">06</span>
+        <div>
+          <h4>Justin Vineyards</h4>
+          <p>Paso Robles</p>
+        </div>
+      </div>
+      <div class="winery-body">
+        <p>파소 로블레스의 대표 와이너리. ISOSCELES 블렌드는 파소의 아이콘입니다. 리조트와 레스토랑을 함께 운영해 1박 와인 투어에 완벽합니다.</p>
+        <div class="winery-tags">
+          <span class="wtag">Bordeaux Blend</span><span class="wtag">Resort</span><span class="wtag">Dinner</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TIPS -->
+<section class="tips-section">
+  <div class="section-header">
+    <p class="eyebrow">Traveler's Tips</p>
+    <h2>와인 여행 꿀팁</h2>
+  </div>
+  <div class="tips-grid">
+    <div class="tip-card">
+      <span class="tip-icon">🚗</span>
+      <div>
+        <h4>대리운전 또는 와인 투어 버스 필수</h4>
+        <p>하루 여러 와이너리를 방문한다면 반드시 운전자를 지정하거나 Beau Wine Tours 같은 프라이빗 투어를 이용하세요. 와인 테이스팅 후 운전은 절대 금물.</p>
+      </div>
+    </div>
+    <div class="tip-card">
+      <span class="tip-icon">📅</span>
+      <div>
+        <h4>예약은 최소 2주 전에</h4>
+        <p>인기 와이너리(Opus One, Kistler 등)는 테이스팅 예약이 필수이며 몇 주 전에 마감됩니다. OpenTable 또는 와이너리 공식 사이트에서 사전 예약하세요.</p>
+      </div>
+    </div>
+    <div class="tip-card">
+      <span class="tip-icon">🧀</span>
+      <div>
+        <h4>치즈와 크래커를 챙겨가세요</h4>
+        <p>여러 곳을 방문하다 보면 빈속에 와인을 마시기 쉽습니다. 일부 와이너리는 음식을 제공하지 않으므로 간단한 스낵을 준비하면 좋습니다.</p>
+      </div>
+    </div>
+    <div class="tip-card">
+      <span class="tip-icon">🍾</span>
+      <div>
+        <h4>와인 구매는 배송 서비스 활용</h4>
+        <p>마음에 드는 와인을 박스째 사면 짐이 됩니다. 대부분의 와이너리는 한국으로 직배송 서비스를 제공합니다. 1–2병만 직접 가져가세요.</p>
+      </div>
+    </div>
+    <div class="tip-card">
+      <span class="tip-icon">💳</span>
+      <div>
+        <h4>와인 클럽 가입 고려</h4>
+        <p>좋아하는 와이너리의 와인 클럽에 가입하면 방문 시 할인, 무료 테이스팅, 한정판 와인 접근 등 혜택을 누릴 수 있습니다.</p>
+      </div>
+    </div>
+    <div class="tip-card">
+      <span class="tip-icon">🌅</span>
+      <div>
+        <h4>오전 방문을 권장</h4>
+        <p>오후 2–4시가 가장 붐빕니다. 오전 10–11시에 첫 와이너리를 방문하면 여유롭게 스태프와 대화하며 깊이 있는 테이스팅을 즐길 수 있습니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SEASON TABLE -->
+<section class="season-section">
+  <div class="section-header">
+    <p class="eyebrow">Best Time to Visit</p>
+    <h2>시즌별 방문 가이드</h2>
+  </div>
+  <table class="season-table">
+    <thead>
+      <tr><th>시즌</th><th>시기</th><th>특징</th><th>추천도</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>🍂 수확철</td>
+        <td>9–10월</td>
+        <td>포도 수확 체험, 와이너리 이벤트 풍성. 최성수기</td>
+        <td><span class="s-badge s-peak">최강 추천</span></td>
+      </tr>
+      <tr>
+        <td>🌸 봄</td>
+        <td>3–5월</td>
+        <td>포도밭이 초록색으로 물들고 날씨 쾌적. 관광객 적음</td>
+        <td><span class="s-badge s-good">강력 추천</span></td>
+      </tr>
+      <tr>
+        <td>☀️ 여름</td>
+        <td>6–8월</td>
+        <td>낮에는 덥지만 아침 저녁은 서늘. 성수기 혼잡</td>
+        <td><span class="s-badge s-good">추천</span></td>
+      </tr>
+      <tr>
+        <td>❄️ 겨울</td>
+        <td>11–2월</td>
+        <td>비 오는 날 많지만 관광객 적고 조용한 와이너리 경험</td>
+        <td><span class="s-badge s-ok">비수기 추천</span></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- CTA -->
+<section class="cta-bar">
+  <h2>다른 여행 이야기도 보세요</h2>
+  <p>와인 컨트리 너머 캘리포니아의 또 다른 매력을 발견하세요</p>
+  <div class="cta-btns">
+    <a href="golf-blog.html" class="btn-primary">⛳ 골프 여행 보기</a>
+    <a href="sf-blog.html" class="btn-outline">🌁 샌프란시스코 보기</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <strong>MK Travel — Wine Blog</strong><br>
+  <small>캘리포니아 와인 여행 가이드 · 문규 김 · 2026</small>
+  <div class="other-blogs">
+    <a href="landing.html">🏠 홈으로</a>
+    <a href="golf-blog.html">⛳ 골프</a>
+    <a href="sf-blog.html">🌁 샌프란시스코</a>
+  </div>
+</footer>
+
+</body>
+</html>
